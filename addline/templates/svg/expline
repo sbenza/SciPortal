@@ -1,0 +1,27 @@
+digraph {
+	node [fontsize=8.0 href="/addline/editAbstractWkf/1/" tooltip="click to edit this activity 1"]
+	ELA_1 [label="PreProcessing
+<<Map>>"]
+	node [fontsize=8.0 href="/addline/editAbstractWkf/2/" tooltip="click to edit this activity 2"]
+	ELA_2 [label="HomologySearch
+<<SplitMap>>"]
+	node [fontsize=8.0 href="/addline/editAbstractWkf/3/" tooltip="click to edit this activity 3"]
+	ELA_3 [label="InitialPrediction
+<<SplitMap>>" shape=doubleoctagon]
+	node [fontsize=8.0 href="/addline/editAbstractWkf/4/" tooltip="click to edit this activity 4"]
+	ELA_4 [label="Consensus Output
+<<MRQuery>>"]
+	node [fontsize=8.0 href="/addline/editAbstractWkf/5/" tooltip="click to edit this activity 5"]
+	ELA_5 [label="FinalList
+<<MRQuery>>"]
+	node [fontsize=8.0 href="/addline/editAbstractWkf/6/" tooltip="click to edit this activity 6"]
+	ELA_6 [label="FastaSplit
+<<SplitMap>>" shape=egg style=dashed]
+		ELA_1 -> ELA_2 [style=dashed]
+		ELA_1 -> ELA_3
+		ELA_3 -> ELA_5
+		ELA_2 -> ELA_4
+		ELA_4 -> ELA_5
+		ELA_1 -> ELA_6 [style=dashed]
+		ELA_6 -> ELA_2 [style=dashed]
+}

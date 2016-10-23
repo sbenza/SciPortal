@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h1>{{ expLine.name}}</h1>
+{% load static %}
+<!--<img src="{% static 'addline/expline.svg' %}" alt="My image"/>-->
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{% include 'svg/derivations.svg' %}
+
+
+<input type="submit" name="AddAbstractWkf" value="Add Abstract Workflow" /> </form>
+</body>
+</html>

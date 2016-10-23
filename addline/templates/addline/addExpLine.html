@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h1>Add New Experiment Line </h1>
+
+<form class="form-horizontal" method="POST">
+
+<!--<form action="" method="post" >-->
+    {% csrf_token %}
+    <div class="control-group">
+        <label class="control-label" for="name"> Name :</label>
+        <div class="controls">
+            {{form.name}}
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="description"> Description :</label>
+        <div class="controls">
+            {{form.description}}
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"></label>
+        <div class="controls">
+            <button class="btn btn-large btn-block btn-success submit-button" type="submit" >Add </button>
+        </div>
+    </div>
+    <!--Name:<br>-->
+    <!--<input type="text" name="name"><br>-->
+    <!--Description:<br>-->
+    <!--<input type="text" name="description"><br>-->
+    <!--<input type="submit"  value="Add"/>-->
+</form>
+</body>
+</html>

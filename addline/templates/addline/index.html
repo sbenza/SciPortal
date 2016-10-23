@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Experiments Lines</title>
+</head>
+<body>
+{% if latest_expline_list %}
+<ul>
+    <h1>Choose an Experiment Line</h1>
+</ul>
+<ul>
+    {% for expline in latest_expline_list %}
+    <li><a href="/addline/{{ expline.id }}/">{{ expline.name }}</a></li>
+    {% endfor %}
+
+</ul>
+{% else %}
+<p>No Experiments Line are available.</p> {% endif %}
+<h5> <a href="/addline/addExpLine/">  Add new Experiment Line</a> </h5>
+<!--<form action="{% url 'addline:addExpLineView' %}" method="post" > {% csrf_token %}-->
+
+    <!--<input type="submit"  value="Add New Experiment Line"/>-->
+<!--</form>-->
+ </form>
+</body>
+</html>

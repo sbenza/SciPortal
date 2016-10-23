@@ -1,0 +1,10 @@
+auxlib==0.0.42
+conda==4.2.7
+Django==1.10.1
+enum34==1.1.6
+PyYAML==3.11
+pycosat==0.6.1
+ruamel.yaml
+
+requests==2.11.1
+psycopg2==2.6.2

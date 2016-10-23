@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>ExpLine</title>
+</head>
+<body>
+<h1>{{ expLine.name}}</h1>
+{% load static %}
+<!--<img src="{% static 'addline/expline.svg' %}" alt="My image"/>-->
+{% include 'svg/expline.svg' %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+    {% if eLAct_list %}
+            {% for act in eLAct_list %}
+                    <li> <a> {{ act.name}}</a>  </li>
+            {% endfor %}
+    </ul> {% else %}
+
+
+
+    <p>No Activities are available for this Experiment Line.</p>
+{% endif %}
+<h5> <a href="/addline/{{expLine.id}}/addELAct/">  Add Activities</a> </h5>
+<h5> <a href="/addline/{{expLine.id}}/addAbstractWkf/">  Add new Abstract Workflow</a> </h5>
+
+<!--<form action="{% url 'addline:addELAct' expLine.id %}" method="post" > {% csrf_token %}>-->
+    <!--<input type="submit" value="Add Activities" />-->
+<!--</form>-->
+<form action="{% url 'addline:expLineDerivations' expLine.id %}" method="post" > {% csrf_token %}>
+    <input type="submit" value="View Derivations"/>
+</form>
+
+
+
+</body>
+</html>
+
+
