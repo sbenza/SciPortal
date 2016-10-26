@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+{% extends 'addline/base.html' %}
+{% block content %}
+{% load static %}
+
+<script src="{% static 'addline/jquery-3.1.1.js' %}"></script>
+
+<script src="{% static 'addline/main.js' %}"></script>
+
 <script type="text/javascript">
 function showDiv(toggle){
 if (document.getElementById(toggle).style.display == 'none'){
@@ -19,11 +20,10 @@ document.getElementById(toggle).style.display = 'none';
 }
 </script>
 
-<form class="form-horizontal" method="POST">
-
+<form action="/addline/{{expLine.id}}/addAbstractWkf/" method="POST" id="post-form">
+{% csrf_token %}
 <h1>Add Abstract Workflow</h1>
 <h3>Experiment Line: {{ expLine.name}}</h3>
-{% load static %}
 <div>
 Select the available Activities from the Experiment Line:<br>
 {% for activity in eLAct_list %}
@@ -32,10 +32,19 @@ Select the available Activities from the Experiment Line:<br>
 {% endfor %}
 </div>
 
+{% include 'svg/workflow.svg' %}
+
 </form>
 
-<input type="button" name="answer" onclick="showDiv('toggleDerivation')" value="show/hide available derivations"></input>
+<form action="/addline/{{expLine.id}}/addAbstractWkf/" method="POST" id="post-form">
+{% csrf_token %}
+
+    <input type="submit" value="View New Workflow" class="tiny button">
+
+</form>
 <input type="button" name="answer" onclick="showDiv('toggleExpLine')" value="show/hide ExpLine"></input>
+
+<input type="button" name="answer" onclick="showDiv('toggleDerivation')" value="show/hide available derivations"></input>
 
  <div id="toggleExpLine" style="display:none;" class="answer_list">
 {% include 'svg/expline.svg' %}
@@ -45,5 +54,4 @@ Select the available Activities from the Experiment Line:<br>
 {% include 'svg/derivations.svg' %}
  </div>
 
-</body>
-</html>
+{% endblock %}

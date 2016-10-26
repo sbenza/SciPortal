@@ -8,7 +8,8 @@ class ExpLineForm(forms.ModelForm):
         model = ExpLine
         fields = ('name', 'description')
         widgets = {
-            'description': Textarea(attrs={'cols': 40, 'rows': 5}),
+            'name': Textarea(attrs={'rows': 1,'id': 'exp-Name', 'required': True, 'placeholder': 'Experiment Name'},),
+            'description': Textarea(attrs={'cols': 40, 'rows': 5,'id': 'exp-Description', 'required': False, 'placeholder': 'Say something about the Experiment...'},),
         }
 
     def save(self, commit=True):

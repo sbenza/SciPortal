@@ -9,4 +9,6 @@ url(r'^addExpLine/$', views.addExpLineView, name='addExpLineView'),
 url(r'^(?P<explineid>[0-9]+)/addELAct/$', views.addELActView, name='addELAct'),
 url(r'^(?P<explineid>[0-9]+)/addAbstractWkf/$', views.addAbstractWkfView, name='addAbstractWkf'),
 # url(r'^addELActivity/$', views.addELActivity, name='addELActivity'),
+url(r'^(?P<explineid>[0-9]+)/addAbstractWkf/$', views.addAbstractWkfView, name='addAbstractWkf2'),
+
 ]

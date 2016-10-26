@@ -1,15 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>Experiments Lines</title>
-</head>
-<body>
+{% extends 'addline/base.html' %}
+{% block content %}
+
 {% if latest_expline_list %}
+
+<script type="text/javascript">
+function showDiv(toggle){
+if (document.getElementById(toggle).style.display == 'none'){
+document.getElementById(toggle).style.display = 'block';
+
+
+}
+else {
+document.getElementById(toggle).style.display = 'none';
+
+}
+}
+</script>
 <ul>
     <h1>Choose an Experiment Line</h1>
 </ul>
-<ul>
+<ul id="expLineList">
     {% for expline in latest_expline_list %}
     <li><a href="/addline/{{ expline.id }}/">{{ expline.name }}</a></li>
     {% endfor %}
@@ -17,11 +27,25 @@
 </ul>
 {% else %}
 <p>No Experiments Line are available.</p> {% endif %}
-<h5> <a href="/addline/addExpLine/">  Add new Experiment Line</a> </h5>
-<!--<form action="{% url 'addline:addExpLineView' %}" method="post" > {% csrf_token %}-->
+<!--<h5> <a href="/addline/addExpLine/">  Add new Experiment Line</a> </h5>-->
 
-    <!--<input type="submit"  value="Add New Experiment Line"/>-->
-<!--</form>-->
- </form>
-</body>
-</html>
+<div id="toggleNewExpLine" style="display:none;" class="answer_list">
+
+<form method="POST" id="expLine-form">
+    {% csrf_token %}
+    <label class="control-label"> Name :</label>
+    <div class="fieldWrapper" id="Name" >
+        {{ form.name }}
+    </div>
+    <label class="control-label" > Description :</label>
+    <div class="fieldWrapper" id="Description">
+        {{ form.description }}
+    </div>
+    <input type="submit" value="Add" class="tiny button">
+</form>
+</div>
+<input type="button" name="answer" onclick="showDiv('toggleNewExpLine')" value="Add ExpLine"/>
+
+{% endblock %}
+
+

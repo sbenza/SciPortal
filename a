@@ -1,6 +1,0 @@
-digraph {
-	node [color=red]
-		1
-		2
-			1 -> 2
-}

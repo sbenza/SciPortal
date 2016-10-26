@@ -1,17 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-    <script>
-    {% if messages %}
-        {% for message in messages %}
-            alert(message);
-        {% endfor %}
-    {% endif %}
-    </script>
-</head>
-<body>
+{% extends 'addline/base.html' %}
+{% block content %}
 <h1>Add New Experiment Line Activities</h1>
 
 <h2>{{ expLine.name}}</h2>
@@ -63,31 +51,4 @@
         </div>
     </div>
 </form>
-
-
-<!--<form action="" method="post" >-->
-    <!--{% csrf_token %}-->
-    <!--Name:<br>-->
-    <!--<input type="text" name="name"><br>-->
-    <!--<input hidden name="expline" value= {{expLine.id}}>-->
-    <!--Operation:<br>-->
-    <!--<input type="text" name="operation"><br>-->
-    <!--Variant:<br>-->
-    <!--<input type="text" name="variant"><br>-->
-    <!--Optional:<br>-->
-    <!--<input type="text" name="optional"><br>-->
-    <!--{% if eLAct_list %}-->
-        <!--Dependency:<br>-->
-        <!--{% for activity in eLAct_list %}-->
-            <!--<input type="checkbox" name="dependency" id="dependency{{ activity.id }}" value="{{ activity.id }}" />-->
-            <!--<label for="dependency{{ activity.id }}">{{ activity.name}}</label><br />-->
-        <!--{% endfor %}-->
-    <!--{% else %}-->
-        <!--<input hidden name="dependency" value= None>-->
-    <!--{% endif %}-->
-
-
-    <!--<input type="submit"  value="Add"/>-->
-<!--</form>-->
-</body>
-</html>
+{% endblock %}

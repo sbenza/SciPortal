@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+{% extends 'addline/base.html' %}
+{% block content %}
 <h1>{{ expLine.name}}</h1>
 {% load static %}
 <!--<img src="{% static 'addline/expline.svg' %}" alt="My image"/>-->
@@ -14,5 +9,4 @@
 
 
 <input type="submit" name="AddAbstractWkf" value="Add Abstract Workflow" /> </form>
-</body>
-</html>
+{% endblock %}

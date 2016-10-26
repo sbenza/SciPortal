@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <title>SciPortal</title>
+
+        {% load static %}
+        <script src="{% static 'addline/jquery-3.1.1.js' %}"></script>
+        <script src="{% static 'addline/main.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'addline/styles.css' %}" type="text/css" media="all">
+    </head>
+<body>
+    <div id="header">
+        <h1><a href="/addline">SciPortal</a></h1>
+    </div>
+    <div class="content container">
+        <div class="row">
+            <div class="col-md-8">
+            {% block content %}
+            {% endblock %}
+            </div>
+        </div>
+    </div>
+</body>
+<div id = "footer">
+
+</div>
+</html>
+
+<script type="text/javascript">
+{% block script %}
+{% endblock %}
+</script>
