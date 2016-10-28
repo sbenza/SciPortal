@@ -11,7 +11,7 @@ body{text-align:left;}
 /* 750 centered, and backward compatibility */ 
 #doc,#doc2,#doc3,.yui-t1,.yui-t2,.yui-t3,.yui-t4,.yui-t5,.yui-t6,.yui-t7 {
 	margin:auto;text-align:left;
-	width:57.69em;*width:56.3em;min-width:750px;}
+	*width:56.3em;min-width:750px;}
 /* 950 centered */ 
 #doc2 {
 	width:73.074em;*width:71.313em;min-width:950px;}
@@ -106,8 +106,8 @@ body{text-align:left;}
 .yui-gc div.first, 
 .yui-gd div.first{margin-left:0;}
 .yui-gc div.first, 
-.yui-gd .yui-u{width:66%;}
-.yui-gd div.first{width:32%;}
+.yui-gd .yui-u{width:50%;}
+.yui-gd div.first{width:45%;}
 .yui-ge .yui-u{width:24%;}
 .yui-ge div.first, 
 .yui-gf .yui-u{width:74.2%;}
@@ -130,6 +130,10 @@ body{text-align:left;}
 
 
 /* Basic Element Formatting */
+body {
+    display: block;
+    margin: 30px;
+}
 
 #header{
 	height:100px;
@@ -157,15 +161,16 @@ body{text-align:left;}
 	}
 
 .content{
+
 	height:auto;
 	background:#FFFFFF;
 	border-top:#FFFFFF 2px solid;
 	margin:0;
-	padding:0;
+	padding:10;
 	}
 	
 #secondary{
-	height:300px;
+	height:auto;
 	background:#FFFFFF;
 	border-top:#FFFFFF 2px solid;
 	margin:0;
@@ -184,12 +189,20 @@ body{text-align:left;}
 	height:50px;
 	background:#4681b4;
 	border-top:#FFFFFF 2px solid;
-	margin:0;
-	padding:0;
+	padding:10;
+	text-align:right
+
 	}
-	
+
+#footer a{
+    color:#FFFFFF
+}
 ul {
 	
 	color:#4681b4;
 	list-style:none;
+}
+
+svg {
+    padding:15
 }

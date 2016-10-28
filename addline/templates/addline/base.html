@@ -6,23 +6,62 @@
         <script src="{% static 'addline/jquery-3.1.1.js' %}"></script>
         <script src="{% static 'addline/main.js' %}"></script>
         <link rel="stylesheet" href="{% static 'addline/styles.css' %}" type="text/css" media="all">
+        <script type="text/javascript">
+function showDiv(toggle){
+if (document.getElementById(toggle).style.display == 'none'){
+document.getElementById(toggle).style.display = 'block';
+
+
+}
+else {
+document.getElementById(toggle).style.display = 'none';
+
+}
+}
+</script>
+
     </head>
 <body>
+<div id="doc" class="yui-t7">
+  <div id="hd">
     <div id="header">
-        <h1><a href="/addline">SciPortal</a></h1>
-    </div>
-    <div class="content container">
-        <div class="row">
-            <div class="col-md-8">
-            {% block content %}
+        <h1><a href="/addline">SciPortal</a></h1>  </div>
+  <div id="bd">
+    <div id="yui-main">
+      <div class="yui-b">
+        <div class="yui-gd">
+            {% block gd %}
             {% endblock %}
+          <div class="yui-u first">
+            <div class="content">
+                {% block content %}
+                {% endblock %}
             </div>
+          </div>
+          <div class="yui-u">
+            <div class="content">
+                {% block content-right %}
+                {% endblock %}
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</body>
-<div id = "footer">
-
+    <div class="yui-b">
+      <div id="secondary">
+          {% block content-bottom %}
+          {% endblock %}
+      </div>
+    </div>
+  </div>
+  <div id="ft">
+    <div id="footer">
+        <a>Powered by: Coffe and Tears</a>
+    </div>
+  </div>
 </div>
+</div>
+</body>
 </html>
 
 <script type="text/javascript">

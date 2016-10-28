@@ -1,34 +1,111 @@
 {% extends 'addline/base.html' %}
-{% block content %}
-<h1>{{ expLine.name}}</h1>
 {% load static %}
+
+{% block gd %}
+<h1>{{ expLine.name}}</h1>
+{% endblock %}
+{% block content %}
 <!--<img src="{% static 'addline/expline.svg' %}" alt="My image"/>-->
-{% include 'svg/expline.svg' %}
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+{% endif %}
 
+<div id="result">
     {% if eLAct_list %}
-            {% for act in eLAct_list %}
-                    <li> <a> {{ act.name}}</a>  </li>
-            {% endfor %}
-    </ul> {% else %}
+    {% include 'svg/expline.svg' %}
 
 
-
+{% else %}
     <p>No Activities are available for this Experiment Line.</p>
 {% endif %}
-<h5> <a href="/addline/{{expLine.id}}/addELAct/">  Add Activities</a> </h5>
-<h5> <a href="/addline/{{expLine.id}}/addAbstractWkf/">  Add new Abstract Workflow</a> </h5>
+</div>
+
+
+
+            <div id="toggleaddELAct" style="display:none;" class="answer_list">
+
+        <form method="POST" id=ELA-form>
+
+        <!--<form action="" method="post" >-->
+            {% csrf_token %}
+            <div class="control-group">
+                <label class="control-label" > Name :</label>
+                <div class="fieldWrapper" id="exp-Name" >
+                    {{form.name}}
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label"> Operation :</label>
+                <div class="fieldWrapper" id="exp-operation" >
+                    {{form.operation}}
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" > Variant :</label>
+                <div class="fieldWrapper" id="exp-variant" >
+                    {{form.variant}}
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" > Optional :</label>
+                <div class="fieldWrapper" id="exp-optional" >
+                   {{form.optional}}
+                </div>
+            </div>
+
+            {{form.expLine}}
+
+            <input hidden id="expid" value="{{ expLine.id }}" />
+
+            {% if eLAct_list %}
+            Dependency:<br>
+            {% for activity in eLAct_list %}
+                <input id='dependency' type="checkbox" name="dependency" id="dependency{{ activity.id }}" value="{{ activity.id}}" />
+                <label for="dependency{{ activity.id }}">{{ activity.name}}</label><br />
+            {% endfor %}
+            {% else %}
+                <input hidden id='dependencyh' name="dependency" value= None>
+            {% endif %}
+
+            <div class="control-group">
+                <label class="control-label"></label>
+                <div class="controls">
+                    <button class="btn btn-large btn-block btn-success submit-button" type="submit" >Add </button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+<!--<h5> <a href="/addline/{{expLine.id}}/addELAct/">  Add Activities</a> </h5>-->
+<!--<h5> <a href="/addline/{{expLine.id}}/addAbstractWkf/">  Add new Abstract Workflow</a> </h5>-->
 
 <!--<form action="{% url 'addline:addELAct' expLine.id %}" method="post" > {% csrf_token %}>-->
     <!--<input type="submit" value="Add Activities" />-->
 <!--</form>-->
-<form action="{% url 'addline:expLineDerivations' expLine.id %}" method="post" > {% csrf_token %}>
-    <input type="submit" value="View Derivations"/>
-</form>
 
 
+
+
+
+{% block content-right %}
 
 {% endblock %}
 
 
+{% block content-bottom %}
+<form>
+    <input type="button" name="addELAct" onclick="showDiv('toggleaddAbstractWkf')" value="Add Abstract Workflow"/>
+    <input type="button" name="addELAct" onclick="showDiv('toggleaddELAct')" value="Add Activity"/>
 
+</form>
+<!--<form action="{% url 'addline:expLineDerivations' expLine.id %}" method="post"> {% csrf_token %}-->
+    <!--<input type="submit" value="View Derivations"/>-->
+    <input type="button" name="addELAct" onclick="showDiv('toggleDerivations')" value="View Derivation"/>
+
+</form>
+    <div id="toggleDerivations" style="display:none;" class="answer_list">
+      {% include 'svg/derivations.svg' %}
+    </div>
+
+{% endblock %}

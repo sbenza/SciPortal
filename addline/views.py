@@ -17,26 +17,55 @@ import json
 
 
 def indexView(request):
+    #ExpLineForm in the context of index but manage in the addExpLineView()
     latest_expline_list = ExpLine.objects.all()
     c = {'form': ExpLineForm(), 'latest_expline_list': latest_expline_list}
     return render(request, 'addline/index.html', c)
 
 
+def addExpLineView(request):
+    #get method not used anymore, the index renders the ExpLine form, didn't deleted just in case is usefull again
+    if request.method == 'GET':
+        c = {'form': ExpLineForm()}
+        return render(request, 'addline/addExpLine.html', c)
+
+    elif request.method == 'POST':
+        #retrieve the posted data
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+
+        #save in the DB
+        experiment = ExpLine(name=name, description=description)
+        experiment.save()
+
+        #store the response data to send to the html via json by the ajax code
+        response_data = {}
+        response_data['result'] = 'Add experiment successful!'
+        response_data['expLineId'] = experiment.id
+        response_data['expName'] = experiment.name
+
+        #send the json to the html
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )
+
 def expLineDetailView(request, explineid):
     try:
-        # recupera dados do expLine e das atividades do expLine
         expLine = ExpLine.objects.get(id=explineid)
         eLAct_list = ExpLineActivity.objects.filter(expLine=explineid)
         eLActDep_list = ExpLineActDependency.objects.filter(eLActivity__expLine__id=explineid)
 
         createGraph(eLAct_list, eLActDep_list, False)
 
+        form = ELActivityForm(initial={'expLine': expLine})
+        c = {'expLine': expLine, 'form': form, 'eLAct_list': eLAct_list, 'eLActDep_list': eLActDep_list,}
+
     except ExpLineActivity.DoesNotExist:
         raise Http404('ExpLineActivity not exist')
-    context = {'eLActDep_list': eLActDep_list, 'eLAct_list': eLAct_list, 'expLine': expLine}
+    # context = {'eLActDep_list': eLActDep_list, 'eLAct_list': eLAct_list, 'expLine': expLine}
 
-    return render(request, 'addline/detail.html', context)
-    # return HttpResponse('this is the expline: %s' % expline.)
+    return render(request, 'addline/detail.html', c)
 
 
 def addELANodes(graph, activities, editable):
@@ -150,53 +179,6 @@ def expLineDerivationsView(request, explineid):
     return render(request, 'addline/derivations.html', context)
 
 
-def addExpLineView(request):
-    c = {}
-    if request.method == 'GET':
-
-        c = {'form': ExpLineForm()}
-
-        return render(request, 'addline/addExpLine.html', c)
-
-    elif request.method == 'POST':
-        # post_text = request.POST.get('the_post')
-        # response_data = {}
-        #
-        # post = Post(text=post_text, author=request.user)
-        # post.save()
-        #
-        # response_data['result'] = 'Create post successful!'
-        # response_data['postpk'] = post.pk
-        # response_data['text'] = post.text
-        # response_data['created'] = post.created.strftime('%B %d, %Y %I:%M %p')
-        # response_data['author'] = post.author.username
-
-        response_data = {}
-
-        name = request.POST.get('name')
-        description = request.POST.get('description')
-        experiment = ExpLine(name=name, description=description)
-        experiment.save()
-
-        response_data['result'] = 'Add experiment successful!'
-        response_data['expLineId'] = experiment.id
-        response_data['expName'] = experiment.name
-
-
-
-        return HttpResponse(
-            json.dumps(response_data),
-            content_type="application/json"
-        )
-        # if form.is_valid():
-        #     experiment = form.save()
-        # else:
-        #     c['form'] = form
-        #     return render(request, 'addline/addExpLine.html', c)
-
-        # return HttpResponseRedirect(reverse('addline:detail', args=(experiment.id,)))
-
-
 def addELActView(request, explineid):
     c = {}
     if request.method == 'GET':
@@ -216,15 +198,25 @@ def addELActView(request, explineid):
         return render(request, 'addline/addExpLineAct.html', c)
 
     elif request.method == 'POST':
-        form = ELActivityForm(request.POST)
+        # form = ELActivityForm(request.POST)
         # dep= ExpLineActDependency()
         # formDep = DepELAForm(request.POST, instance=dep)
-        dependency = request.POST.getlist('dependency')
-        # A= formDep.is_valid()
-        if form.is_valid():
-            new_activity = form.save()
 
-            if dependency != 'None':
+        dependency = (request.POST.get('dependency')).split()
+        name = request.POST.get('name')
+        operation = request.POST.get('operation')
+        variant = request.POST.get('variant')
+        optional= request.POST.get('optional')
+        expLine = ExpLine.objects.get(id=int(request.POST.get('id')))
+
+
+        #save in the DB
+        new_activity = ExpLineActivity(name=name,operation=operation,variant=variant,optional=optional, expLine=expLine)
+        try:
+
+            new_activity.save()
+
+            if dependency != []:
                 dep = []
                 for item in dependency:
                     activity = ExpLineActivity.objects.get(id=int(item))
@@ -240,19 +232,63 @@ def addELActView(request, explineid):
 
                 # formDep.clean_data['eLActivity':activity]
                 for d in dep: d.save()
-        else:
-            expLine = ExpLine.objects.get(id=explineid)
-            eLAct_list = ExpLineActivity.objects.filter(expLine__id=explineid)
-            form = ELActivityForm(initial={'expLine': expLine})
-            # formDep = DepELAForm(initial={'explineid':expLine.id},
-            # # 'eLActivity'=form.
-            # )
 
 
-            c = {'expLine': expLine, 'form': form, 'eLAct_list': eLAct_list}
-            return render(request, 'addline/addExpLineAct.html', c)
+        except:
+            pass
 
-        return HttpResponseRedirect(reverse('addline:detail', args=(explineid,)))
+        finally:
+
+            eLAct_list = ExpLineActivity.objects.filter(expLine=explineid)
+            eLActDep_list = ExpLineActDependency.objects.filter(eLActivity__expLine__id=explineid)
+            createGraph(eLAct_list, eLActDep_list, False)
+
+        #store the response data to send to the html via json by the ajax code
+        response_data = {}
+        # response_data['result'] = 'Add experiment successful!'
+        # response_data['expLineId'] = experiment.id
+        # response_data['expName'] = experiment.name
+
+        #send the json to the html
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )
+        # A= formDep.is_valid()
+        # if form.is_valid():
+        # new_activity = form.save()
+
+        # if dependency != []:
+        #     dep = []
+        #     for item in dependency:
+        #         activity = ExpLineActivity.objects.get(id=int(item))
+        #         dep.append(ExpLineActDependency(eLActivity=activity, dependentELActivity=new_activity,
+        #                                         variant=activity.variant,
+        #                                         optional=activity.optional))
+        #         try:
+        #             dep[-1].full_clean()
+        #             continue
+        #         except:
+        #             new_activity.delete()
+        #
+        #
+        #     # formDep.clean_data['eLActivity':activity]
+        #     for d in dep: d.save()
+        #
+
+        # else:
+        #     expLine = ExpLine.objects.get(id=explineid)
+        #     eLAct_list = ExpLineActivity.objects.filter(expLine__id=explineid)
+        #     form = ELActivityForm(initial={'expLine': expLine})
+        #     # formDep = DepELAForm(initial={'explineid':expLine.id},
+        #     # # 'eLActivity'=form.
+        #     # )
+        #
+        #
+        #     c = {'expLine': expLine, 'form': form, 'eLAct_list': eLAct_list}
+        #     return render(request, 'addline/addExpLineAct.html', c)
+
+        # return HttpResponseRedirect(reverse('addline:detail', args=(explineid,)))
 
 
 def addAbstractWkfView(request, explineid):

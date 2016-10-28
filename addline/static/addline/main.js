@@ -43,6 +43,66 @@ $(function() {
         });
     };
 
+// Submit post on submit
+    $('#ELA-form').on('submit', function(event){
+        event.preventDefault();
+        console.log("form submitted!")  // sanity check
+        addELA();
+    });
+
+    // AJAX for posting
+    function addELA() {
+        console.log("create ELA is working!") // sanity check
+         //var expid= $('#id_name')
+         //var url = expid+"/addELAct/"
+
+        var checkbox_value = '';
+
+        $(":checkbox").each(function () {
+        var ischecked = $(this).is(":checked");
+        if (ischecked) {
+            checkbox_value += $(this).val() + " ";
+        }
+        });
+        var div=$('#result').html();
+        alert( div);
+
+        $.ajax({
+
+            url : "addELAct/", // the endpoint
+            type : "POST", // http method
+
+            data : {
+                id : $('#expid').val(),
+                name : $('#name').val(),
+                operation :$('#operation').val(),
+                variant : $('#variant').val(),
+                optional : $('#optional').val(),
+                dependency : checkbox_value
+
+                }, // data sent with the post request
+            // handle a successful response
+            success : function(json) {
+
+                console.log($('#name').val());
+                console.log("success expLine is working!"); // sanity check
+
+                $('#name').val('');
+                $// remove the value from the input
+                console.log(json); // log the returned json to the console
+                console.log("success"); // another sanity check
+                alert(3);
+
+                $('#result').html(div);
+            },
+            // handle a non-successful response
+            error : function(xhr,errmsg,err) {
+                $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                    " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    };
 
     // This function gets cookie with a given name
     function getCookie(name) {
@@ -98,11 +158,4 @@ $(function() {
 });
 
 
-$(function showDiv(toggle){
-    if (document.getElementById(toggle).style.display == 'none'){
-            document.getElementById(toggle).style.display = 'block';
-    }
-    else {
-    document.getElementById(toggle).style.display = 'none';
-    }
-})
+

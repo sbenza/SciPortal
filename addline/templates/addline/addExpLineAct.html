@@ -9,25 +9,25 @@
 <!--<form action="" method="post" >-->
     {% csrf_token %}
     <div class="control-group">
-        <label class="control-label" for="{{ form.name.id_for_label }}"> Name :</label>
+        <label class="control-label"> Name :</label>
         <div class="controls">
             {{form.name}}
         </div>
     </div>
     <div class="control-group">
-        <label class="control-label" for="{{ form.operation.id_for_label }}"> Operation :</label>
+        <label class="control-label"> Operation :</label>
         <div class="controls">
             {{form.operation}}
         </div>
     </div>
     <div class="control-group">
-        <label class="control-label" for="{{ form.variant.id_for_label }}"> Variant :</label>
+        <label class="control-label"> Variant :</label>
         <div class="controls">
             {{form.variant}}
         </div>
     </div>
     <div class="control-group">
-        <label class="control-label" for="{{ form.optional.id_for_label }}"> Optional :</label>
+        <label class="control-label"> Optional :</label>
         <div class="controls">
            {{form.optional}}
         </div>

@@ -1,21 +1,10 @@
 digraph {
-	ELA_1 [label="PreProcessing
+	ELA_75 [label="Teste2
+<<Filter>>" fontsize=8.0 shape=doubleoctagon]
+	ELA_50 [label="SciPhy
 <<Map>>" fontsize=8.0]
-	ELA_2 [label="HomologySearch
-<<SplitMap>>" fontsize=8.0]
-	ELA_3 [label="InitialPrediction
-<<SplitMap>>" fontsize=8.0 shape=doubleoctagon]
-	ELA_4 [label="Consensus Output
-<<MRQuery>>" fontsize=8.0]
-	ELA_5 [label="FinalList
-<<MRQuery>>" fontsize=8.0]
-	ELA_6 [label="FastaSplit
-<<SplitMap>>" fontsize=8.0 shape=egg style=dashed]
-		ELA_1 -> ELA_2 [style=dashed]
-		ELA_1 -> ELA_3
-		ELA_3 -> ELA_5
-		ELA_2 -> ELA_4
-		ELA_4 -> ELA_5
-		ELA_1 -> ELA_6 [style=dashed]
-		ELA_6 -> ELA_2 [style=dashed]
+	ELA_51 [label="teste
+<<Reduce>>" fontsize=8.0]
+		ELA_50 -> ELA_75
+		ELA_51 -> ELA_75
 }

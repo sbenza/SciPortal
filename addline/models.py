@@ -37,7 +37,7 @@ class Concreteactivity(models.Model):
     concreteWorkflow = models.ForeignKey('ConcreteWorkflow', on_delete=models.CASCADE, db_column='concreteworkflowid',
                                          )
     name = models.CharField(max_length=255)
-    operation = models.CharField(max_length=255, choices=OPERATION_CHOICES)
+    operation = models.CharField(max_length=255, choices=OPERATION_CHOICES, default='Map')
 
     class Meta:
         db_table = 'concreteactivity'
@@ -73,8 +73,8 @@ class ExpLineActivity(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     operation = models.CharField(max_length=255, choices=OPERATION_CHOICES)
-    variant = models.BooleanField()
-    optional = models.BooleanField()
+    variant = models.BooleanField(default=False)
+    optional = models.BooleanField(default=False)
     expLine = models.ForeignKey('ExpLine', on_delete=models.CASCADE, db_column='explineid')
 
     class Meta:
@@ -94,8 +94,8 @@ class ExpLineActDependency(models.Model):
     eLActivity = models.ForeignKey(ExpLineActivity, on_delete=models.CASCADE, db_column='explineactid', related_name='eLActivity')
     dependentELActivity = models.ForeignKey(ExpLineActivity, on_delete=models.CASCADE, db_column='depexplineactid',
                                             related_name='dependentELActivity')
-    variant = models.BooleanField()
-    optional = models.BooleanField()
+    variant = models.BooleanField(default=False)
+    optional = models.BooleanField(default=False)
 
 
     class Meta:

@@ -1,17 +1,20 @@
 from addline.models import *
 from django import forms
-from django.forms import Textarea
+from django.forms import Textarea, RadioSelect
 
 
 class ELActivityForm(forms.ModelForm):
     class Meta:
         model = ExpLineActivity
-        fields = ('name', 'operation', 'variant', 'optional', 'expLine')
+        fields = ('name', 'operation', 'variant', 'optional', )
+        exclude = ('expLine',)
         widgets = {
-            'operation': forms.Select(choices=OPERATION_CHOICES),
-            'expLine': forms.HiddenInput(),
-            'variant': forms.CheckboxInput(),
-            'optional': forms.CheckboxInput()
+            'name': Textarea(attrs={'rows': 1,'id': 'name', 'required': True, 'placeholder': 'Activity Name'},),
+            'operation': forms.Select(choices=OPERATION_CHOICES, attrs={'id': 'operation'}),
+            # 'expLine': forms.HiddenInput(attrs={'id': 'expLine'}),
+            'variant': forms.Select(choices=[(True, 'Yes'), (False, 'No')], attrs={'id': 'variant'}),
+            'optional': forms.Select(choices=[(True, 'Yes'), (False, 'No')], attrs={'id': 'optional'})
+            # 'operation':
         }
 
 
