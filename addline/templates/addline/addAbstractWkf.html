@@ -1,50 +1,47 @@
 {% extends 'addline/base.html' %}
-{% block content %}
 {% load static %}
 
-<script src="{% static 'addline/jquery-3.1.1.js' %}"></script>
+{% block gd %}
+{% endblock %}
 
-<script src="{% static 'addline/main.js' %}"></script>
+{% block content %}
 
-<script type="text/javascript">
-function showDiv(toggle){
-if (document.getElementById(toggle).style.display == 'none'){
-document.getElementById(toggle).style.display = 'block';
-
-
-}
-else {
-document.getElementById(toggle).style.display = 'none';
-
-}
-}
-</script>
-
-<form action="/addline/{{expLine.id}}/addAbstractWkf/" method="POST" id="post-form">
-{% csrf_token %}
-<h1>Add Abstract Workflow</h1>
+<h1>Manage Abstract Workflows</h1>
 <h3>Experiment Line: {{ expLine.name}}</h3>
 <div>
-Select the available Activities from the Experiment Line:<br>
-{% for activity in eLAct_list %}
-    <input type="checkbox" name="eLActivity" id="eLActivity{{ activity.id }}" value="{{ activity.id}}" />
-    <label for="eLActivity{{ activity.id }}">{{ activity.name}}</label><br />
+Select the Abstract Workflow:<br>
+    <ul id="wkfList">
+
+{% for workflow in workflow_list %}
+    <li><a href="/addline/{{ expLine.id }}/addAbstractWkf/{{workflow.id}}">{{ workflow.name }}</a></li>
 {% endfor %}
+        </ul>
 </div>
 
-{% include 'svg/workflow.svg' %}
 
+<div id="toggleNewAWkf" style="display:none;" class="answer_list">
+
+<form method="POST" id="awkf-form">
+    {% csrf_token %}
+    <label class="control-label"> Name :</label>
+    <div class="fieldWrapper" id="Name" >
+        {{ form.name }}
+    </div>
+    <label class="control-label" > Description :</label>
+    <div class="fieldWrapper" id="Description">
+        {{ form.description }}
+    </div>
+    <input type="submit" value="Add" class="tiny button">
 </form>
+</div>
 
-<form action="/addline/{{expLine.id}}/addAbstractWkf/" method="POST" id="post-form">
-{% csrf_token %}
 
-    <input type="submit" value="View New Workflow" class="tiny button">
 
-</form>
-<input type="button" name="answer" onclick="showDiv('toggleExpLine')" value="show/hide ExpLine"></input>
+<input type="button" name="answer" onclick="showDiv('toggleNewAWkf')" value="Add Abstract Workflow"/><br/>
 
-<input type="button" name="answer" onclick="showDiv('toggleDerivation')" value="show/hide available derivations"></input>
+<input type="button" name="answer" onclick="showDiv('toggleExpLine')" value="show/hide ExpLine"/>
+
+<input type="button" name="answer" onclick="showDiv('toggleDerivation')" value="show/hide available derivations"/>
 
  <div id="toggleExpLine" style="display:none;" class="answer_list">
 {% include 'svg/expline.svg' %}

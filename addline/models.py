@@ -24,6 +24,8 @@ class AbstractWorkflow(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=255, blank=True, null=True)
+    expLine = models.ForeignKey('ExpLine', on_delete=models.CASCADE, db_column='explineid')
+
 
     class Meta:
         db_table = 'abstractworkflow'

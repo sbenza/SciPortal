@@ -68,8 +68,8 @@
             {% endif %}
 
             <div class="control-group">
-                <label class="control-label"></label>
                 <div class="controls">
+                    <br>
                     <button class="btn btn-large btn-block btn-success submit-button" type="submit" >Add </button>
                 </div>
             </div>
@@ -87,25 +87,23 @@
 
 
 
-
-{% block content-right %}
-
-{% endblock %}
-
-
 {% block content-bottom %}
-<form>
-    <input type="button" name="addELAct" onclick="showDiv('toggleaddAbstractWkf')" value="Add Abstract Workflow"/>
-    <input type="button" name="addELAct" onclick="showDiv('toggleaddELAct')" value="Add Activity"/>
 
-</form>
+
+<input type="button" name="addELAct" onclick="showDiv('toggleaddELAct')" value="Add Activity"/>
+
 <!--<form action="{% url 'addline:expLineDerivations' expLine.id %}" method="post"> {% csrf_token %}-->
     <!--<input type="submit" value="View Derivations"/>-->
-    <input type="button" name="addELAct" onclick="showDiv('toggleDerivations')" value="View Derivation"/>
 
-</form>
-    <div id="toggleDerivations" style="display:none;" class="answer_list">
+<input type="button" name="viewDerivation" onclick="showDiv('toggleDerivations')" value="View Derivation"/><br/>
+
+<div id="toggleDerivations" style="display:none;" class="answer_list">
       {% include 'svg/derivations.svg' %}
-    </div>
+</div>
+<br/>
 
+
+<form action="{% url 'addline:addAbstractWkf' expLine.id %}" method="get" > {% csrf_token %}
+    <input type="submit" value="Manage Abstract Workflows" />
+</form>
 {% endblock %}

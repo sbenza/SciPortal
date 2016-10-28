@@ -1,5 +1,5 @@
 from django.shortcuts import render
-# from addline.depELAForm import DepELAForm
+from addline.aWkfForm import AbstractWorkflowForm
 from addline.eLActivityForm import ELActivityForm
 from addline.expLineForm import ExpLineForm
 from addline.models import *
@@ -17,14 +17,14 @@ import json
 
 
 def indexView(request):
-    #ExpLineForm in the context of index but manage in the addExpLineView()
+    # ExpLineForm in the context of index but manage in the addExpLineView()
     latest_expline_list = ExpLine.objects.all()
     c = {'form': ExpLineForm(), 'latest_expline_list': latest_expline_list}
     return render(request, 'addline/index.html', c)
 
 
 def addExpLineView(request):
-    #get method not used anymore, the index renders the ExpLine form, didn't deleted just in case is usefull again
+    # get method not used anymore, the index renders the ExpLine form, didn't deleted just in case is usefull again
     if request.method == 'GET':
         c = {'form': ExpLineForm()}
         return render(request, 'addline/addExpLine.html', c)
@@ -50,6 +50,7 @@ def addExpLineView(request):
             content_type="application/json"
         )
 
+
 def expLineDetailView(request, explineid):
     try:
         expLine = ExpLine.objects.get(id=explineid)
@@ -59,7 +60,7 @@ def expLineDetailView(request, explineid):
         createGraph(eLAct_list, eLActDep_list, False)
 
         form = ELActivityForm(initial={'expLine': expLine})
-        c = {'expLine': expLine, 'form': form, 'eLAct_list': eLAct_list, 'eLActDep_list': eLActDep_list,}
+        c = {'expLine': expLine, 'form': form, 'eLAct_list': eLAct_list, 'eLActDep_list': eLActDep_list, }
 
     except ExpLineActivity.DoesNotExist:
         raise Http404('ExpLineActivity not exist')
@@ -76,18 +77,19 @@ def addELANodes(graph, activities, editable):
         if activity.variant:
             if activity.optional:
                 graph.node(name='ELA_' + str(activity.id), label=(activity.name + '\n<<' + activity.operation + '>>'),
-                           shape='doubleoctagon', style='dashed',fontsize='8.0')
+                           shape='doubleoctagon', style='dashed', fontsize='8.0')
             else:
                 graph.node(name='ELA_' + str(activity.id), label=(activity.name + '\n<<' + activity.operation + '>>'),
-                           shape='doubleoctagon',fontsize='8.0')
+                           shape='doubleoctagon', fontsize='8.0')
                 # , href="/addline/1/",
                 # tooltip="click for the same place yet",fontsize='8.0')
         else:
             if activity.optional:
                 graph.node(name='ELA_' + str(activity.id), label=(activity.name + '\n<<' + activity.operation + '>>'),
-                           shape='egg', style='dashed',fontsize='8.0')
+                           shape='egg', style='dashed', fontsize='8.0')
             else:
-                graph.node(name='ELA_' + str(activity.id), label=(activity.name + '\n<<' + activity.operation + '>>'),fontsize='8.0')
+                graph.node(name='ELA_' + str(activity.id), label=(activity.name + '\n<<' + activity.operation + '>>'),
+                           fontsize='8.0')
 
 
 def addAbsActNodes(graph, derivations):
@@ -182,14 +184,10 @@ def expLineDerivationsView(request, explineid):
 def addELActView(request, explineid):
     c = {}
     if request.method == 'GET':
-
-
         try:
             expLine = ExpLine.objects.get(id=explineid)
             eLAct_list = ExpLineActivity.objects.filter(expLine__id=explineid)
             form = ELActivityForm(initial={'expLine': expLine})
-            # formDep = DepELAForm(initial={'explineid':expLine.id})
-            # formDep = DepELAForm()
 
             c = {'expLine': expLine, 'form': form, 'eLAct_list': eLAct_list}
         except ExpLineActivity.DoesNotExist:
@@ -198,24 +196,18 @@ def addELActView(request, explineid):
         return render(request, 'addline/addExpLineAct.html', c)
 
     elif request.method == 'POST':
-        # form = ELActivityForm(request.POST)
-        # dep= ExpLineActDependency()
-        # formDep = DepELAForm(request.POST, instance=dep)
-
         dependency = (request.POST.get('dependency')).split()
         name = request.POST.get('name')
         operation = request.POST.get('operation')
         variant = request.POST.get('variant')
-        optional= request.POST.get('optional')
+        optional = request.POST.get('optional')
         expLine = ExpLine.objects.get(id=int(request.POST.get('id')))
 
-
-        #save in the DB
-        new_activity = ExpLineActivity(name=name,operation=operation,variant=variant,optional=optional, expLine=expLine)
+        # save in the DB
+        new_activity = ExpLineActivity(name=name, operation=operation, variant=variant, optional=optional,
+                                       expLine=expLine)
         try:
-
             new_activity.save()
-
             if dependency != []:
                 dep = []
                 for item in dependency:
@@ -228,133 +220,114 @@ def addELActView(request, explineid):
                         continue
                     except:
                         new_activity.delete()
-
-
-                # formDep.clean_data['eLActivity':activity]
-                for d in dep: d.save()
-
-
+                for d in dep:
+                    d.save()
         except:
             pass
-
         finally:
-
             eLAct_list = ExpLineActivity.objects.filter(expLine=explineid)
             eLActDep_list = ExpLineActDependency.objects.filter(eLActivity__expLine__id=explineid)
             createGraph(eLAct_list, eLActDep_list, False)
 
         #store the response data to send to the html via json by the ajax code
         response_data = {}
-        # response_data['result'] = 'Add experiment successful!'
-        # response_data['expLineId'] = experiment.id
-        # response_data['expName'] = experiment.name
 
         #send the json to the html
         return HttpResponse(
             json.dumps(response_data),
             content_type="application/json"
         )
-        # A= formDep.is_valid()
-        # if form.is_valid():
-        # new_activity = form.save()
-
-        # if dependency != []:
-        #     dep = []
-        #     for item in dependency:
-        #         activity = ExpLineActivity.objects.get(id=int(item))
-        #         dep.append(ExpLineActDependency(eLActivity=activity, dependentELActivity=new_activity,
-        #                                         variant=activity.variant,
-        #                                         optional=activity.optional))
-        #         try:
-        #             dep[-1].full_clean()
-        #             continue
-        #         except:
-        #             new_activity.delete()
-        #
-        #
-        #     # formDep.clean_data['eLActivity':activity]
-        #     for d in dep: d.save()
-        #
-
-        # else:
-        #     expLine = ExpLine.objects.get(id=explineid)
-        #     eLAct_list = ExpLineActivity.objects.filter(expLine__id=explineid)
-        #     form = ELActivityForm(initial={'expLine': expLine})
-        #     # formDep = DepELAForm(initial={'explineid':expLine.id},
-        #     # # 'eLActivity'=form.
-        #     # )
-        #
-        #
-        #     c = {'expLine': expLine, 'form': form, 'eLAct_list': eLAct_list}
-        #     return render(request, 'addline/addExpLineAct.html', c)
-
-        # return HttpResponseRedirect(reverse('addline:detail', args=(explineid,)))
 
 
-def addAbstractWkfView(request, explineid):
-    c = {'expLine': explineid}
-
+def addWkfAct(request, explineid,workflowid):
+    # c = {'expLine': explineid}
     if request.method == 'POST':
-        expLine = ExpLine.objects.get(id=explineid)
-        c = {'expLine': expLine}
+         #retrieve the posted data
+        # name = request.POST.get('name')
+        # description = request.POST.get('description')
+        #
+        # #save in the DB
+        # workflow = AbstractWorkflow(name=name, description=description)
+        # workflow.save()
+        #
+        # #store the response data to send to the html via json by the ajax code
+        response_data = {}
+        # response_data['result'] = 'Add workflow successful!'
+        # response_data['expLineId'] = explineid
+        # response_data['wkfId'] = workflow.id
+        # response_data['wkfName'] = workflow.name
 
-        form = ExpLineForm(request.POST)
-        if form.is_valid():
-            experiment = form.save()
-
-        res = {}
+        #send the json to the html
         return HttpResponse(
-            json.dumps(res),
+            json.dumps(response_data),
             content_type="application/json"
         )
 
-        # return HttpResponseRedirect(reverse('addline:detail', args=(expLine.id,)))
+    elif request.method == 'GET':
+        try:
+            expLine = ExpLine.objects.get(id=explineid)
+            workflow = AbstractWorkflow.objects.get(id=workflowid)
+            eLAct_list = ExpLineActivity.objects.filter(expLine=explineid)
+            aAct_list = AbstractActivity.objects.filter(derivation__expLineActivity__expLine__id=explineid)
+            eLActDep_list = ExpLineActDependency.objects.filter(eLActivity__expLine__id=explineid)
+            aActDep_list = AbstractWorkflowDependency.objects.filter(activity__expLineActivity__expLine__id=explineid)
+            # graph = createGraph(eLAct_list, eLActDep_list, True)
 
-        # activities = request.POST.getlist('eLActivity')
-        #
-        # # post_text = request.POST.get('the_post')
-        # response_data = {}
-        # activities_list=[]
-        #
-        # # post = Post(text=post_text, author=request.user)
-        # # post.save()
-        #
-        # # response_data['result'] = 'Create post successful!'
-        # # response_data['postpk'] = post.pk
-        # # response_data['text'] = post.text
-        # # response_data['created'] = post.created.strftime('%B %d, %Y %I:%M %p')
-        # # response_data['author'] = post.author.username
-        #
-        # for item in activities:
-        # response_data[str(item)]=ExpLineActivity.objects.get(id=int(item))
-        #
-        #
-        #
-        # return HttpResponse(
-        #     json.dumps(response_data),
-        #     content_type="application/json"
-        # )
+            derivations_list = Derivation.objects.filter(expLineActivity__expLine_id=explineid)
+            abstractActDep_list = AbstractWorkflowDependency.objects.filter(
+                activity__expLineActivity__expLine__id=explineid)
+
+            createSubGraph(derivations_list, abstractActDep_list)
+            form = AbstractWorkflowForm()
+        except ExpLineActivity.DoesNotExist:
+            raise Http404('ExpLineActivity not exist')
+
+        c = {'workflow': workflow, 'eLAct_list': eLAct_list, 'eLActDep_list':eLActDep_list, 'expLine': expLine,  'aAct_list':aAct_list, 'aActDep_list':aActDep_list, 'form': form}
+
+        return render(request, 'addline/workflow.html', c)
+
+
+def manageAbstractWkfView(request, explineid):
+    c = {'expLine': explineid}
+    if request.method == 'POST':
+         #retrieve the posted data
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+
+        #save in the DB
+        workflow = AbstractWorkflow(name=name, description=description)
+        workflow.save()
+
+        #store the response data to send to the html via json by the ajax code
+        response_data = {}
+        response_data['result'] = 'Add workflow successful!'
+        response_data['expLineId'] = explineid
+        response_data['wkfId'] = workflow.id
+        response_data['wkfName'] = workflow.name
+
+        #send the json to the html
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )
+
     elif request.method == 'GET':
         try:
             expLine = ExpLine.objects.get(id=explineid)
             eLAct_list = ExpLineActivity.objects.filter(expLine=explineid)
             eLActDep_list = ExpLineActDependency.objects.filter(eLActivity__expLine__id=explineid)
+            workflow_list = AbstractWorkflow.objects.filter(expLine__id=explineid)
+            # graph = createGraph(eLAct_list, eLActDep_list, True)
 
-            graph = createGraph(eLAct_list, eLActDep_list, True)
-
-            derivations_list = Derivation.objects.filter(expLineActivity__expLine=explineid)
+            derivations_list = Derivation.objects.filter(expLineActivity__expLine_id=explineid)
             abstractActDep_list = AbstractWorkflowDependency.objects.filter(
                 activity__expLineActivity__expLine__id=explineid)
-            #
-            # addAbsActNodes(graph, derivations_list)
-            # addAbsActEdges(graph, derivations_list)
-            # graph.render(filename='addline/templates/svg/expline')
 
             createSubGraph(derivations_list, abstractActDep_list)
-
+            form = AbstractWorkflowForm()
         except ExpLineActivity.DoesNotExist:
             raise Http404('ExpLineActivity not exist')
 
-        c = {'eLActDep_list': eLActDep_list, 'eLAct_list': eLAct_list, 'expLine': expLine}
+        c = {'eLActDep_list': eLActDep_list, 'eLAct_list': eLAct_list, 'expLine': expLine, 'workflow_list' : workflow_list, 'form': form}
 
         return render(request, 'addline/addAbstractWkf.html', c)

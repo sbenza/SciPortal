@@ -1,5 +1,59 @@
 {% extends 'addline/base.html' %}
+{% load static %}
+
+{% block gd %}
+        <h1>Manage Abstract Workflows</h1>
+
+{% endblock %}
+
 {% block content %}
-consegui!
+        <h3>Experiment Line: {{ expLine.name}}</h3>
+
+<div>
+Select the Abstract Activity:<br>
+    <ul id="aactList">
+
+{% for workflow in workflow_list %}
+    <li><a href="/addline/{{ expLine.id }}/addAbstractWkf/{{workflow.id}}">{{ workflow.name }}</a></li>
+{% endfor %}
+        </ul>
+</div>
+
+
+<div id="toggleNewAAct" style="display:none;" class="answer_list">
+
+<form method="POST" id="awkf-form">
+    {% csrf_token %}
+    <label class="control-label"> Name :</label>
+    <div class="fieldWrapper" id="Name" >
+        {{ form.name }}
+    </div>
+    <label class="control-label" > Description :</label>
+    <div class="fieldWrapper" id="Description">
+        {{ form.description }}
+    </div>
+    <input type="submit" value="Add" class="tiny button">
+</form>
+</div>
+
+
+{% endblock %}
+{% block content-right %}
+        <h3>Workflow Name: {{ workflow.name}}</h3>
+{% endblock %}
+{% block content-bottom %}
+<input type="button" name="answer" onclick="showDiv('toggleNewAWkf')" value="Add Abstract Workflow"/><br/>
+
+<input type="button" name="answer" onclick="showDiv('toggleExpLine')" value="show/hide ExpLine"/>
+
+<input type="button" name="answer" onclick="showDiv('toggleDerivation')" value="show/hide available derivations"/>
+
+ <div id="toggleExpLine" style="display:none;" class="answer_list">
+{% include 'svg/expline.svg' %}
+</div>
+
+ <div id="toggleDerivation" style="display:none;" class="answer_list">
+{% include 'svg/derivations.svg' %}
+ </div>
 
 {% endblock %}

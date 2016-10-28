@@ -7,8 +7,9 @@ url(r'^(?P<explineid>[0-9]+)/derivations/$', views.expLineDerivationsView, name=
 url(r'^addExpLine/$', views.addExpLineView, name='addExpLineView'),
 # url(r'^addLine/$', views.addLine, name='addLine'),
 url(r'^(?P<explineid>[0-9]+)/addELAct/$', views.addELActView, name='addELAct'),
-url(r'^(?P<explineid>[0-9]+)/addAbstractWkf/$', views.addAbstractWkfView, name='addAbstractWkf'),
+url(r'^(?P<explineid>[0-9]+)/addAbstractWkf/$', views.manageAbstractWkfView, name='addAbstractWkf'),
+# url(r'^$', views.addAbstractWkfView, name='addAWkf'),
 # url(r'^addELActivity/$', views.addELActivity, name='addELActivity'),
-url(r'^(?P<explineid>[0-9]+)/addAbstractWkf/$', views.addAbstractWkfView, name='addAbstractWkf2'),
+url(r'^(?P<explineid>[0-9]+)/addAbstractWkf/(?P<workflowid>[0-9]+)/$', views.addWkfAct, name='addWkfAct'),
 
 ]

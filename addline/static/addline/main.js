@@ -43,6 +43,50 @@ $(function() {
         });
     };
 
+    // Submit post on submit
+    $('#awkf-form').on('submit', function(event){
+        event.preventDefault();
+        console.log("form submitted!")  // sanity check
+        //var name = $('#wkf-Name').val();
+        //alert(name);
+
+        //console.log(name);
+        create_wkf();
+    });
+
+    // AJAX for posting
+    function create_wkf() {
+        console.log("create wkf is working!") // sanity check
+        $.ajax({
+
+            url : "", // the endpoint
+            type : "POST", // http method
+
+            data : {
+                name : $('#wkf-Name').val(),
+                description : $('#wkf-Description').val()
+                }, // data sent with the post request
+            // handle a successful response
+            success : function(json) {
+                console.log("success wkf is working!"); // sanity check
+
+                $('#wkf-Name').val('');
+                $('#wkf-Description').val('');// remove the value from the input
+                console.log(json); // log the returned json to the console
+                $("#wkfList").prepend("<li><a href='/addline/"+json.expLineId+"/addAbstractWkf/"+json.wkfId+"/'>"+json.wkfName+"</a></li>");
+                console.log("success"); // another sanity check
+                alert(3);
+            },
+            // handle a non-successful response
+            error : function(xhr,errmsg,err) {
+                $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                    " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    };
+
+
 // Submit post on submit
     $('#ELA-form').on('submit', function(event){
         event.preventDefault();
@@ -56,6 +100,12 @@ $(function() {
          //var expid= $('#id_name')
          //var url = expid+"/addELAct/"
 
+         //var div=$('#result').html();
+        jQuery.get('/addline/svg/expline.svg', function(data) {
+        alert(data);
+        });
+        //alert( div);
+        //Checked dependency to string
         var checkbox_value = '';
 
         $(":checkbox").each(function () {
@@ -64,8 +114,7 @@ $(function() {
             checkbox_value += $(this).val() + " ";
         }
         });
-        var div=$('#result').html();
-        alert( div);
+
 
         $.ajax({
 
@@ -93,7 +142,7 @@ $(function() {
                 console.log("success"); // another sanity check
                 alert(3);
 
-                $('#result').html(div);
+                $('#result').load('/addline/svg/expline.svg');
             },
             // handle a non-successful response
             error : function(xhr,errmsg,err) {

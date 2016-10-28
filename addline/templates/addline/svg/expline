@@ -1,0 +1,23 @@
+digraph {
+	ELA_75 [label="Teste2
+<<Filter>>" fontsize=8.0 shape=doubleoctagon]
+	ELA_76 [label="1
+<<SplitMap>>" fontsize=8.0]
+	ELA_77 [label="1
+<<Map>>" fontsize=8.0]
+	ELA_78 [label="2
+<<Map>>" fontsize=8.0]
+	ELA_79 [label="3
+<<SplitMap>>" fontsize=8.0 shape=egg style=dashed]
+	ELA_80 [label="4
+<<SplitMap>>" fontsize=8.0]
+	ELA_50 [label="SciPhy
+<<Map>>" fontsize=8.0]
+	ELA_51 [label="teste
+<<Reduce>>" fontsize=8.0]
+		ELA_50 -> ELA_75
+		ELA_51 -> ELA_75
+		ELA_76 -> ELA_77
+		ELA_76 -> ELA_78
+		ELA_76 -> ELA_79
+}
