@@ -1,20 +1,14 @@
 digraph {
-	node [fontsize=8.0 href="/addline/editAbstractWkf/1/" tooltip="click to edit this activity 1"]
 	ELA_1 [label="PreProcessing
 <<Map>>" fontsize=8.0]
-	node [fontsize=8.0 href="/addline/editAbstractWkf/2/" tooltip="click to edit this activity 2"]
 	ELA_2 [label="HomologySearch
 <<SplitMap>>" fontsize=8.0]
-	node [fontsize=8.0 href="/addline/editAbstractWkf/3/" tooltip="click to edit this activity 3"]
 	ELA_3 [label="InitialPrediction
 <<SplitMap>>" fontsize=8.0 shape=doubleoctagon]
-	node [fontsize=8.0 href="/addline/editAbstractWkf/4/" tooltip="click to edit this activity 4"]
 	ELA_4 [label="Consensus Output
 <<MRQuery>>" fontsize=8.0]
-	node [fontsize=8.0 href="/addline/editAbstractWkf/5/" tooltip="click to edit this activity 5"]
 	ELA_5 [label="FinalList
 <<MRQuery>>" fontsize=8.0]
-	node [fontsize=8.0 href="/addline/editAbstractWkf/6/" tooltip="click to edit this activity 6"]
 	ELA_6 [label="FastaSplit
 <<SplitMap>>" fontsize=8.0 shape=egg style=dashed]
 		ELA_1 -> ELA_2 [style=dashed]

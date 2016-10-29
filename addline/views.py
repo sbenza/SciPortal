@@ -273,16 +273,39 @@ def addWkfAct(request, explineid,workflowid):
             aActDep_list = AbstractWorkflowDependency.objects.filter(activity__expLineActivity__expLine__id=explineid)
             # graph = createGraph(eLAct_list, eLActDep_list, True)
 
+            activities={}
+            derivations_list = Derivation.objects.filter(expLineActivity__expLine_id=explineid).filter(abstractWorkflow__id=workflowid)
+
+            for derivation in derivations_list:
+                activities[derivation.abstractActivity.name]=[]
+                dependencies=AbstractWorkflowDependency.objects.filter(dependentActivity=derivation)
+                for dependency in dependencies:
+                    activities[derivation.abstractActivity.name].append(dependency.activity.abstractActivity.name)
+
+            activities_values=activities.values()
+            activities_keys=activities.keys()
+            activities_items=activities.items()
+            activities_list=[]
+            for k,v in activities_items:
+                if v!= []:
+                    string=(k  + ' \t Dependency: '+' '.join(v))
+                else:
+                    string= k+ ' \t No Dependency'
+                activities_list.append((string))
+            # print(activities)
             derivations_list = Derivation.objects.filter(expLineActivity__expLine_id=explineid)
             abstractActDep_list = AbstractWorkflowDependency.objects.filter(
                 activity__expLineActivity__expLine__id=explineid)
 
-            createSubGraph(derivations_list, abstractActDep_list)
+
+
+            # createSubGraph(derivations_list, abstractActDep_list)
             form = AbstractWorkflowForm()
         except ExpLineActivity.DoesNotExist:
             raise Http404('ExpLineActivity not exist')
 
-        c = {'workflow': workflow, 'eLAct_list': eLAct_list, 'eLActDep_list':eLActDep_list, 'expLine': expLine,  'aAct_list':aAct_list, 'aActDep_list':aActDep_list, 'form': form}
+        c = {'workflow': workflow, 'eLAct_list': eLAct_list, 'eLActDep_list':eLActDep_list, 'expLine': expLine,
+             'aAct_list':aAct_list, 'aActDep_list':aActDep_list, 'activities': activities_list,'form': form}
 
         return render(request, 'addline/workflow.html', c)
 

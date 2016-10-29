@@ -40,9 +40,13 @@ Select the Abstract Activity:<br>
 {% endblock %}
 {% block content-right %}
         <h3>Workflow Name: {{ workflow.name}}</h3>
+        {% for activity in activities %}
+        <li>{{activity }}</a>
+        </li>
+        {% endfor %}
 {% endblock %}
 {% block content-bottom %}
-<input type="button" name="answer" onclick="showDiv('toggleNewAWkf')" value="Add Abstract Workflow"/><br/>
+<input type="button" name="answer" onclick="showDiv('toggleNewAAct')" value="Add Abstract Activity"/><br/>
 
 <input type="button" name="answer" onclick="showDiv('toggleExpLine')" value="show/hide ExpLine"/>
 

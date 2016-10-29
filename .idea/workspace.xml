@@ -35,11 +35,11 @@
                 </provider>
               </entry>
             </file>
-            <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="true">
+            <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="false">
               <entry file="file://$PROJECT_DIR$/addline/models.py">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state vertical-scroll-proportion="0.6345476" vertical-offset="300" max-vertical-offset="1860">
-                    <caret line="56" column="19" selection-start-line="56" selection-start-column="4" selection-end-line="56" selection-end-column="19" />
+                  <state vertical-scroll-proportion="0.0" vertical-offset="870" max-vertical-offset="1860">
+                    <caret line="87" column="12" selection-start-line="87" selection-start-column="4" selection-end-line="87" selection-end-column="12" />
                     <folding />
                   </state>
                 </provider>
@@ -48,12 +48,43 @@
             <file leaf-file-name="workflow.html" pinned="false" current="false" current-in-tab="false">
               <entry file="file://$PROJECT_DIR$/addline/templates/addline/workflow.html">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state vertical-scroll-proportion="-25.625" vertical-offset="0" max-vertical-offset="960">
-                    <caret line="41" column="25" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="25" />
+                  <state vertical-scroll-proportion="-21.333334" vertical-offset="133" max-vertical-offset="1020">
+                    <caret line="43" column="22" selection-start-line="43" selection-start-column="22" selection-end-line="43" selection-end-column="22" />
                     <folding>
                       <element signature="n#style#0;n#div#1;n#!!top" expanded="true" />
                       <element signature="n#style#0;n#div#2;n#!!top" expanded="true" />
                       <element signature="n#style#0;n#div#3;n#!!top" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="urls.py" pinned="false" current="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/addline/urls.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="300">
+                    <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/addline/views.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state vertical-scroll-proportion="0.2972973" vertical-offset="2492" max-vertical-offset="3345">
+                    <caret line="278" column="0" selection-start-line="278" selection-start-column="0" selection-end-line="278" selection-end-column="0" />
+                    <folding>
+                      <element signature="e#0#35#0" expanded="true" />
+                      <element signature="e#520#768#0" expanded="false" />
+                      <element signature="e#2544#3779#0" expanded="false" />
+                      <element signature="e#3826#4197#0" expanded="false" />
+                      <element signature="e#4244#4423#0" expanded="false" />
+                      <element signature="e#4467#5242#0" expanded="false" />
+                      <element signature="e#5302#5511#0" expanded="false" />
+                      <element signature="e#5564#6629#0" expanded="false" />
+                      <element signature="e#6684#7366#0" expanded="false" />
+                      <element signature="e#13009#14867#0" expanded="false" />
                     </folding>
                   </state>
                 </provider>
@@ -73,8 +104,8 @@
       <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/addline/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5234493" vertical-offset="2309" max-vertical-offset="3000">
-              <caret line="272" column="77" selection-start-line="272" selection-start-column="77" selection-end-line="272" selection-end-column="77" />
+            <state vertical-scroll-proportion="0.60805863" vertical-offset="2593" max-vertical-offset="3345">
+              <caret line="290" column="28" selection-start-line="290" selection-start-column="28" selection-end-line="290" selection-end-column="28" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
                 <element signature="e#520#768#0" expanded="false" />
@@ -85,8 +116,18 @@
                 <element signature="e#5302#5511#0" expanded="false" />
                 <element signature="e#5564#6629#0" expanded="false" />
                 <element signature="e#6684#7366#0" expanded="false" />
-                <element signature="e#11961#13819#0" expanded="false" />
+                <element signature="e#13009#14867#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="base.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/miniconda3/envs/myvenv/lib/python3.5/site-packages/django/core/handlers/base.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2293" max-vertical-offset="3555">
+              <caret line="184" column="0" selection-start-line="184" selection-start-column="0" selection-end-line="184" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -94,13 +135,33 @@
       <file leaf-file-name="addAbstractWkf.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/addline/templates/addline/addAbstractWkf.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.5" vertical-offset="0" max-vertical-offset="885">
-              <caret line="12" column="19" selection-start-line="0" selection-start-column="0" selection-end-line="53" selection-end-column="14" />
+            <state vertical-scroll-proportion="3.25" vertical-offset="363" max-vertical-offset="885">
+              <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
               <folding>
                 <element signature="n#style#0;n#div#1;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#2;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#3;n#!!top" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="urls.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/addline/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="300">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="related.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/miniconda3/envs/myvenv/lib/python3.5/site-packages/django/db/models/fields/related.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="9733" max-vertical-offset="23610">
+              <caret line="693" column="0" selection-start-line="693" selection-start-column="0" selection-end-line="693" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -579,10 +640,10 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32810616" sideWeight="0.49960285" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32810616" sideWeight="0.49960285" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16887817" sideWeight="0.49960285" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16887817" sideWeight="0.49960285" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24969843" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15551537" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3075995" sideWeight="0.49960285" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3075995" sideWeight="0.49960285" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39896372" sideWeight="0.50039715" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32810616" sideWeight="0.49960285" order="2" side_tool="false" content_ui="tabs" />
@@ -634,21 +695,30 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/addline/views.py</url>
+          <line>296</line>
+          <option name="timeStamp" value="54" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/addline/views.py</url>
+          <line>280</line>
+          <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/addline/views.py</url>
+          <line>284</line>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+      </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="54" />
+      <option name="time" value="57" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/miniconda3/envs/myvenv/lib/python3.5/site-packages/django/db/models/fields/related.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.16462347" vertical-offset="8381" max-vertical-offset="23610">
-          <caret line="597" column="0" selection-start-line="597" selection-start-column="0" selection-end-line="597" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/miniconda3/envs/myvenv/lib/python3.5/site-packages/django/db/models/fields/related_descriptors.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.16462347" vertical-offset="2636" max-vertical-offset="16440">
@@ -897,14 +967,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/miniconda3/envs/myvenv/lib/python3.5/site-packages/django/core/handlers/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2382" max-vertical-offset="3555">
-          <caret line="184" column="0" selection-start-line="184" selection-start-column="0" selection-end-line="184" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/miniconda3/envs/myvenv/lib/python3.5/site-packages/django/forms/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33214286" vertical-offset="3027" max-vertical-offset="19800">
@@ -987,28 +1049,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/addline/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="300">
-          <caret line="11" column="54" selection-start-line="11" selection-start-column="54" selection-end-line="11" selection-end-column="54" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/addline/templates/addline/addAbstractWkf.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.5" vertical-offset="0" max-vertical-offset="885">
-          <caret line="12" column="19" selection-start-line="0" selection-start-column="0" selection-end-line="53" selection-end-column="14" />
-          <folding>
-            <element signature="n#style#0;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/addline/aWkfForm.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.408472" vertical-offset="0" max-vertical-offset="661">
@@ -1040,10 +1080,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/addline/templates/addline/workflow.html">
+    <entry file="file://$PROJECT_DIR$/addline/templates/addline/addAbstractWkf.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-25.625" vertical-offset="0" max-vertical-offset="960">
-          <caret line="41" column="25" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="25" />
+        <state vertical-scroll-proportion="3.25" vertical-offset="363" max-vertical-offset="885">
+          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
           <folding>
             <element signature="n#style#0;n#div#1;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#2;n#!!top" expanded="true" />
@@ -1052,18 +1092,54 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/miniconda3/envs/myvenv/lib/python3.5/site-packages/django/db/models/fields/related.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="9733" max-vertical-offset="23610">
+          <caret line="693" column="0" selection-start-line="693" selection-start-column="0" selection-end-line="693" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/addline/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="300">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/miniconda3/envs/myvenv/lib/python3.5/site-packages/django/core/handlers/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2382" max-vertical-offset="3555">
+          <caret line="184" column="0" selection-start-line="184" selection-start-column="0" selection-end-line="184" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/addline/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6345476" vertical-offset="300" max-vertical-offset="1860">
-          <caret line="56" column="19" selection-start-line="56" selection-start-column="4" selection-end-line="56" selection-end-column="19" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="870" max-vertical-offset="1860">
+          <caret line="87" column="12" selection-start-line="87" selection-start-column="4" selection-end-line="87" selection-end-column="12" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/addline/templates/addline/workflow.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-21.333334" vertical-offset="133" max-vertical-offset="1020">
+          <caret line="43" column="22" selection-start-line="43" selection-start-column="22" selection-end-line="43" selection-end-column="22" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/addline/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5234493" vertical-offset="2309" max-vertical-offset="3000">
-          <caret line="272" column="77" selection-start-line="272" selection-start-column="77" selection-end-line="272" selection-end-column="77" />
+        <state vertical-scroll-proportion="0.60805863" vertical-offset="2593" max-vertical-offset="3345">
+          <caret line="290" column="28" selection-start-line="290" selection-start-column="28" selection-end-line="290" selection-end-column="28" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
             <element signature="e#520#768#0" expanded="false" />
@@ -1074,7 +1150,7 @@
             <element signature="e#5302#5511#0" expanded="false" />
             <element signature="e#5564#6629#0" expanded="false" />
             <element signature="e#6684#7366#0" expanded="false" />
-            <element signature="e#11961#13819#0" expanded="false" />
+            <element signature="e#13009#14867#0" expanded="false" />
           </folding>
         </state>
       </provider>
