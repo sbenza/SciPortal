@@ -1,36 +1,42 @@
-from django.shortcuts import render
-from addline.aWkfForm import AbstractWorkflowForm
-from addline.eLActivityForm import ELActivityForm
-from addline.expLineForm import ExpLineForm
-from addline.models import *
-from django.http import Http404, HttpResponseRedirect
-from django.contrib import messages
-
-from django.template import loader
-# Create your views here.
-
-from django.http import HttpResponse
-from django.urls import reverse
-import graphviz as gv
-import pygraphviz as pgv
 import json
 
+# import graphviz as gv
+from pygraphviz import *
+from django.shortcuts import render
+from django.http import Http404
+from django.http import HttpResponse
+
+from addline.aWkfForm import AbstractWorkflowForm
+from addline.eLActivityForm import ELActivityForm
+from addline.expLineForm import *
+from addline.dataLogFunctions import *
+
+
+# Create your views here.
 
 def indexView(request):
-    # ExpLineForm in the context of index but manage in the addExpLineView()
-    latest_expline_list = ExpLine.objects.all()
-    c = {'form': ExpLineForm(), 'latest_expline_list': latest_expline_list}
+    try:
+        # t = teste() #testando o pydatalog
+        # ExpLineForm in the context of index but manage in the addExpLineView()
+        latest_expline_list = ExpLine.objects.all()
+        c = {'form': ExpLineForm(), 'latest_expline_list': latest_expline_list,
+        }
+    except ExpLineActivity.DoesNotExist:
+        raise Http404('ExpLineActivity not exist')
+
     return render(request, 'addline/index.html', c)
 
 
-def addExpLineView(request):
+
+
+def addExpLine(request):
     # get method not used anymore, the index renders the ExpLine form, didn't deleted just in case is usefull again
     if request.method == 'GET':
         c = {'form': ExpLineForm()}
         return render(request, 'addline/addExpLine.html', c)
 
     elif request.method == 'POST':
-        #retrieve the posted data
+        # retrieve the posted data
         name = request.POST.get('name')
         description = request.POST.get('description')
 
@@ -58,8 +64,13 @@ def expLineDetailView(request, explineid):
         eLActDep_list = ExpLineActDependency.objects.filter(eLActivity__expLine__id=explineid)
 
         createGraph(eLAct_list, eLActDep_list, False)
+        abstractAct_list = Derivation.objects.filter(expLineActivity__expLine=explineid)
+        abstractActDep_list = AbstractWorkflowDependency.objects.filter(
+            activity__expLineActivity__expLine__id=explineid)
 
+        createSubGraph(abstractAct_list, abstractActDep_list)
         form = ELActivityForm(initial={'expLine': expLine})
+
         c = {'expLine': expLine, 'form': form, 'eLAct_list': eLAct_list, 'eLActDep_list': eLActDep_list, }
 
     except ExpLineActivity.DoesNotExist:
@@ -76,19 +87,19 @@ def addELANodes(graph, activities, editable):
                        tooltip="click to edit this activity " + str(activity.id), fontsize='8.0')
         if activity.variant:
             if activity.optional:
-                graph.node(name='ELA_' + str(activity.id), label=(activity.name + '\n<<' + activity.operation + '>>'),
+                graph.add_node(n= str(activity.id), label=(activity.name + '\n' + activity.operation),
                            shape='doubleoctagon', style='dashed', fontsize='8.0')
             else:
-                graph.node(name='ELA_' + str(activity.id), label=(activity.name + '\n<<' + activity.operation + '>>'),
+                graph.add_node(n= str(activity.id), label=(activity.name + '\n' + activity.operation),
                            shape='doubleoctagon', fontsize='8.0')
                 # , href="/addline/1/",
                 # tooltip="click for the same place yet",fontsize='8.0')
         else:
             if activity.optional:
-                graph.node(name='ELA_' + str(activity.id), label=(activity.name + '\n<<' + activity.operation + '>>'),
+                graph.add_node(n=str(activity.id), label=(activity.name + '\n' + activity.operation ),
                            shape='egg', style='dashed', fontsize='8.0')
             else:
-                graph.node(name='ELA_' + str(activity.id), label=(activity.name + '\n<<' + activity.operation + '>>'),
+                graph.add_node(n= str(activity.id), label=(activity.name + '\n' + activity.operation ),
                            fontsize='8.0')
 
 
@@ -96,8 +107,8 @@ def addAbsActNodes(graph, derivations):
     sgraph = gv.Digraph('cluster_0')
 
     for activity in derivations:
-        sgraph.node(name='AAct_' + str(activity.abstractActivity.id),
-                    label=(activity.abstractActivity.name + '\n<<' + activity.abstractActivity.operation + '>>'),
+        sgraph.node(name= str(activity.abstractActivity.id),
+                    label=(activity.abstractActivity.name + '\n' + activity.abstractActivity.operation ),
                     shape='parallelogram', style='filled', fillcolor='grey', fontsize='6.0')
 
     graph.subgraph(sgraph)
@@ -105,7 +116,7 @@ def addAbsActNodes(graph, derivations):
 
 def addAbsActEdges(graph, derivations):
     for activity in derivations:
-        graph.edge('AAct_' + str(activity.abstractActivity.id), 'ELA_' + str(activity.expLineActivity.id), dir='none',
+        graph.edge( str(activity.abstractActivity.id),   str(activity.expLineActivity.id), dir='none',
                    rank='same')
 
 
@@ -113,55 +124,43 @@ def addELAEdge(graph, dependencies):
     for dependency in dependencies:
         if dependency.variant:
             if dependency.optional:
-                graph.edge('ELA_' + str(dependency.eLActivity.id), 'ELA_' + str(dependency.dependentELActivity.id),
+                graph.add_edge( str(dependency.eLActivity.id), str(dependency.dependentELActivity.id),
                            style='dashed')
             else:
-                graph.edge('ELA_' + str(dependency.eLActivity.id), 'ELA_' + str(dependency.dependentELActivity.id),
+                graph.add_edge(str(dependency.eLActivity.id),str(dependency.dependentELActivity.id),
                            style='bold')
         else:
             if dependency.optional:
-                graph.edge('ELA_' + str(dependency.eLActivity.id), 'ELA_' + str(dependency.dependentELActivity.id),
+                graph.add_edge(str(dependency.eLActivity.id),  str(dependency.dependentELActivity.id),
                            style='dashed')
             else:
-                graph.edge('ELA_' + str(dependency.eLActivity.id), 'ELA_' + str(dependency.dependentELActivity.id))
+                graph.add_edge(str(dependency.eLActivity.id), str(dependency.dependentELActivity.id))
 
 
 def createGraph(activities, dependencies, editable):
-    graph = gv.Digraph(format='svg')
+    graph = AGraph(strict=False,directed=True)
     addELANodes(graph, activities, editable)
 
     addELAEdge(graph, dependencies)
 
-    graph.render(filename='addline/templates/svg/expline')
+    graph.layout(prog='dot')
 
-    # print(g1)
+    graph.draw(path='addline/templates/svg/expline.svg',format='svg')
 
     return graph
 
 
 def createSubGraph(activities, dependencies):
-    graph = gv.Digraph(format='svg')
-    graphDict = {}
+    graph = AGraph(strict=False,directed=True)
 
     for activity in activities:
-        graph.attr('node', fontsize='8.0')
-
-        if activity.abstractWorkflow.id not in graphDict:
-            graphDict[activity.abstractWorkflow.id] = gv.Digraph('cluster_' + str(activity.abstractWorkflow.id))
-            graphDict[activity.abstractWorkflow.id].body.append('label=' + activity.abstractWorkflow.name)
-            graphDict[activity.abstractWorkflow.id].node(name=str(activity.id), label=(
-                activity.abstractActivity.name + '\n<<' + activity.abstractActivity.operation + '>>'))
-        else:
-            graphDict[activity.abstractWorkflow.id].node(name=str(activity.id), label=(
-                activity.abstractActivity.name + '\n<<' + activity.abstractActivity.operation + '>>'))
-
-    for subGraph in graphDict.items():
-        graph.subgraph(subGraph[1])
-
+        graph.add_node(n=str(activity.id), label=(
+                activity.abstractActivity.name + '\n' + activity.abstractActivity.operation ),fontsize='8.0')
     for dependency in dependencies:
-        graph.edge(str(dependency.activity.id), str(dependency.dependentActivity.id))
+        graph.add_edge(str(dependency.activity.id), str(dependency.dependentActivity.id))
+    graph.layout('dot')
 
-    graph.render(filename='addline/templates/svg/derivations')
+    graph.draw(path='addline/templates/svg/derivations.svg',format='svg')
 
 
 def expLineDerivationsView(request, explineid):
@@ -183,6 +182,7 @@ def expLineDerivationsView(request, explineid):
 
 def addELActView(request, explineid):
     c = {}
+    response_data={'text': 'Valid Experiment Line, you can derive an Abstract Workflow now =D', 'cardinality_text':''}
     if request.method == 'GET':
         try:
             expLine = ExpLine.objects.get(id=explineid)
@@ -203,12 +203,13 @@ def addELActView(request, explineid):
         optional = request.POST.get('optional')
         expLine = ExpLine.objects.get(id=int(request.POST.get('id')))
 
-        # save in the DB
-        new_activity = ExpLineActivity(name=name, operation=operation, variant=variant, optional=optional,
-                                       expLine=expLine)
+
         try:
+            # update the DB
+            new_activity = ExpLineActivity(name=name, operation=operation, variant=variant, optional=optional,
+                                       expLine=expLine)
             new_activity.save()
-            if dependency != []:
+            if dependency:
                 dep = []
                 for item in dependency:
                     activity = ExpLineActivity.objects.get(id=int(item))
@@ -220,16 +221,19 @@ def addELActView(request, explineid):
                         continue
                     except:
                         new_activity.delete()
+                        raise Http404('New activity not saved')
+
                 for d in dep:
                     d.save()
         except:
-            pass
+            raise Http404('New activity not saved')
         finally:
             eLAct_list = ExpLineActivity.objects.filter(expLine=explineid)
             eLActDep_list = ExpLineActDependency.objects.filter(eLActivity__expLine__id=explineid)
             createGraph(eLAct_list, eLActDep_list, False)
+            print ('grafo atualizado')
 
-        #store the response data to send to the html via json by the ajax code
+        # store the response data to send to the html via json by the ajax code
         response_data = {}
 
         #send the json to the html
@@ -237,12 +241,38 @@ def addELActView(request, explineid):
             json.dumps(response_data),
             content_type="application/json"
         )
+    elif request.method == 'PUT':
+        try:
+           # todo LOGIC
+            eLAct_list = ExpLineActivity.objects.filter(expLine=explineid)
+            eLActDep_list = ExpLineActDependency.objects.filter(eLActivity__expLine__id=explineid)
 
+        except:
+            pass
+        finally:
+            # eLAct_list = ExpLineActivity.objects.filter(expLine=explineid)
+            # eLActDep_list = ExpLineActDependency.objects.filter(eLActivity__expLine__id=explineid)
+            graph= createGraph(eLAct_list, eLActDep_list, False)
+            cardinality=check_cardinality(graph,eLActDep_list)
+            conectivity = check_connectivity(graph)
+            # print ('grafo atualizado')
+            # store the response data to send to the html via json by the ajax code
 
-def addWkfAct(request, explineid,workflowid):
+        if cardinality:
+            response_data={'text':'Invalid Experiment','cardinality_text':cardinality}
+        if conectivity :
+            response_data['text'] = conectivity[0]+'<br>'+str(conectivity[1])
+        # print (response_data)
+        #send the json to the html
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )
+
+def derivationManagementView(request, explineid, workflowid):
     # c = {'expLine': explineid}
     if request.method == 'POST':
-         #retrieve the posted data
+        # retrieve the posted data
         # name = request.POST.get('name')
         # description = request.POST.get('description')
         #
@@ -267,58 +297,67 @@ def addWkfAct(request, explineid,workflowid):
         try:
             expLine = ExpLine.objects.get(id=explineid)
             workflow = AbstractWorkflow.objects.get(id=workflowid)
-            eLAct_list = ExpLineActivity.objects.filter(expLine=explineid)
-            aAct_list = AbstractActivity.objects.filter(derivation__expLineActivity__expLine__id=explineid)
-            eLActDep_list = ExpLineActDependency.objects.filter(eLActivity__expLine__id=explineid)
-            aActDep_list = AbstractWorkflowDependency.objects.filter(activity__expLineActivity__expLine__id=explineid)
+            # eLAct_list = ExpLineActivity.objects.filter(expLine=explineid)
+            # aAct_list = AbstractActivity.objects.filter(derivation__expLineActivity__expLine__id=explineid)
+            # eLActDep_list = ExpLineActDependency.objects.filter(eLActivity__expLine__id=explineid)
+            # aActDep_list = AbstractWorkflowDependency.objects.filter(activity__expLineActivity__expLine__id=explineid)
             # graph = createGraph(eLAct_list, eLActDep_list, True)
+            # form = AbstractWorkflowForm()
 
-            activities={}
-            derivations_list = Derivation.objects.filter(expLineActivity__expLine_id=explineid).filter(abstractWorkflow__id=workflowid)
+            activities = {}
+            derivations_list = Derivation.objects.filter(expLineActivity__expLine_id=explineid).filter(
+                abstractWorkflow__id=workflowid)
 
             for derivation in derivations_list:
-                activities[derivation.abstractActivity.name]=[]
-                dependencies=AbstractWorkflowDependency.objects.filter(dependentActivity=derivation)
+                activities[derivation.abstractActivity] = []
+                dependencies = AbstractWorkflowDependency.objects.filter(dependentActivity=derivation)
                 for dependency in dependencies:
-                    activities[derivation.abstractActivity.name].append(dependency.activity.abstractActivity.name)
+                    activities[derivation.abstractActivity].append(dependency.activity.abstractActivity)
 
-            activities_values=activities.values()
-            activities_keys=activities.keys()
-            activities_items=activities.items()
-            activities_list=[]
-            for k,v in activities_items:
-                if v!= []:
-                    string=(k  + ' \t Dependency: '+' '.join(v))
+            activities_items = activities.items()
+            activities_list = []
+            keys = []
+
+            for k, v in activities_items:
+                if v != []:
+                    vList = []
+                    for item in v:
+                        vList.append(item.name)
+                    string = (k.name + '. Dependency: ' + ', '.join(vList))
                 else:
-                    string= k+ ' \t No Dependency'
+                    string = k.name + '. No Dependency'
+                    keys.append(k)
+
                 activities_list.append((string))
-            # print(activities)
-            derivations_list = Derivation.objects.filter(expLineActivity__expLine_id=explineid)
-            abstractActDep_list = AbstractWorkflowDependency.objects.filter(
-                activity__expLineActivity__expLine__id=explineid)
+
+            restrictedAct_list = activities
+            for k in keys:
+                restrictedAct_list.pop(k)
 
 
 
-            # createSubGraph(derivations_list, abstractActDep_list)
-            form = AbstractWorkflowForm()
+
         except ExpLineActivity.DoesNotExist:
             raise Http404('ExpLineActivity not exist')
+        #
+        # c = {'workflow': workflow, 'eLAct_list': eLAct_list, 'eLActDep_list':eLActDep_list, 'expLine': expLine,
+        # 'aAct_list':aAct_list, 'aActDep_list':aActDep_list, 'activities': activities_list,'form': form}
 
-        c = {'workflow': workflow, 'eLAct_list': eLAct_list, 'eLActDep_list':eLActDep_list, 'expLine': expLine,
-             'aAct_list':aAct_list, 'aActDep_list':aActDep_list, 'activities': activities_list,'form': form}
+        c = {'expLine': expLine, 'activities': activities_list, 'restrictedAct_list': restrictedAct_list,
+             'availableAct_list': keys, 'workflow': workflow}
 
-        return render(request, 'addline/workflow.html', c)
+        return render(request, 'addline/derivationManagement.html', c)
 
 
-def manageAbstractWkfView(request, explineid):
+def abstractWkfManagementView(request, explineid):
     c = {'expLine': explineid}
     if request.method == 'POST':
-         #retrieve the posted data
+        # retrieve the posted data
         name = request.POST.get('name')
         description = request.POST.get('description')
-
+        expLine = ExpLine(id=explineid)
         #save in the DB
-        workflow = AbstractWorkflow(name=name, description=description)
+        workflow = AbstractWorkflow(name=name, description=description, expLine=expLine)
         workflow.save()
 
         #store the response data to send to the html via json by the ajax code
@@ -346,11 +385,12 @@ def manageAbstractWkfView(request, explineid):
             abstractActDep_list = AbstractWorkflowDependency.objects.filter(
                 activity__expLineActivity__expLine__id=explineid)
 
-            createSubGraph(derivations_list, abstractActDep_list)
+            # createSubGraph(derivations_list, abstractActDep_list)
             form = AbstractWorkflowForm()
         except ExpLineActivity.DoesNotExist:
             raise Http404('ExpLineActivity not exist')
 
-        c = {'eLActDep_list': eLActDep_list, 'eLAct_list': eLAct_list, 'expLine': expLine, 'workflow_list' : workflow_list, 'form': form}
+        c = {'eLActDep_list': eLActDep_list, 'eLAct_list': eLAct_list, 'expLine': expLine,
+             'workflow_list': workflow_list, 'form': form}
 
         return render(request, 'addline/addAbstractWkf.html', c)

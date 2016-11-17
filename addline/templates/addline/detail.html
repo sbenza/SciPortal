@@ -1,33 +1,36 @@
 {% extends 'addline/base.html' %}
 {% load static %}
 
+
 {% block gd %}
-<h1>{{ expLine.name}}</h1>
+    <h1>{{ expLine.name}}</h1>
+    <ul id="connected"></ul>
+    <ul id="cardinality"></ul>
 {% endblock %}
+
+
 {% block content %}
-<!--<img src="{% static 'addline/expline.svg' %}" alt="My image"/>-->
-{% if error_message %}
-    <p><strong>{{ error_message }}</strong></p>
-{% endif %}
+    <!--<img src="{% static 'addline/expline.svg' %}" alt="My image"/>-->
+    {% if error_message %}
+        <p><strong>{{ error_message }}</strong></p>
+    {% endif %}
 
-<div id="result">
-    {% if eLAct_list %}
-    {% include 'svg/expline.svg' %}
+    <div>
 
 
-{% else %}
-    <p>No Activities are available for this Experiment Line.</p>
-{% endif %}
-</div>
+        {% if eLAct_list %}
+            <form method="POST" id=expLine-check > {% csrf_token %}
+                    <button class="button" type="submit" > Validate Experiment </button>
+            </form>
 
+            {% include 'svg/expline.svg' %}
+        {% else %}
+            <p>No Activities are available for this Experiment Line.</p>
+        {% endif %}
+    </div>
 
-
-            <div id="toggleaddELAct" style="display:none;" class="answer_list">
-
-        <form method="POST" id=ELA-form>
-
-        <!--<form action="" method="post" >-->
-            {% csrf_token %}
+    <div id="toggleaddELAct" style="display:none;" class="answer_list">
+        <form method="POST" id=ELA-form> {% csrf_token %}
             <div class="control-group">
                 <label class="control-label" > Name :</label>
                 <div class="fieldWrapper" id="exp-Name" >
@@ -58,11 +61,11 @@
             <input hidden id="expid" value="{{ expLine.id }}" />
 
             {% if eLAct_list %}
-            Dependency:<br>
-            {% for activity in eLAct_list %}
-                <input id='dependency' type="checkbox" name="dependency" id="dependency{{ activity.id }}" value="{{ activity.id}}" />
-                <label for="dependency{{ activity.id }}">{{ activity.name}}</label><br />
-            {% endfor %}
+                Dependency:<br>
+                {% for activity in eLAct_list %}
+                    <input id='dependency' type="checkbox" name="dependency" id="dependency{{ activity.id }}" value="{{ activity.id}}" />
+                    <label for="dependency{{ activity.id }}">{{ activity.name}}</label><br />
+                {% endfor %}
             {% else %}
                 <input hidden id='dependencyh' name="dependency" value= None>
             {% endif %}
@@ -77,33 +80,18 @@
     </div>
 {% endblock %}
 
-<!--<h5> <a href="/addline/{{expLine.id}}/addELAct/">  Add Activities</a> </h5>-->
-<!--<h5> <a href="/addline/{{expLine.id}}/addAbstractWkf/">  Add new Abstract Workflow</a> </h5>-->
-
-<!--<form action="{% url 'addline:addELAct' expLine.id %}" method="post" > {% csrf_token %}>-->
-    <!--<input type="submit" value="Add Activities" />-->
-<!--</form>-->
-
-
-
 
 {% block content-bottom %}
+    <input type="button" name="addELAct" onclick="showDiv('toggleaddELAct')" value="Add Activity"/>
 
+    <input type="button" name="viewDerivation" onclick="showDiv('toggleDerivations')" value="View Derivation"/><br/>
 
-<input type="button" name="addELAct" onclick="showDiv('toggleaddELAct')" value="Add Activity"/>
+    <div id="toggleDerivations" style="display:none;" class="answer_list">
+          {% include 'svg/derivations.svg' %}
+    </div>
+    <br/>
 
-<!--<form action="{% url 'addline:expLineDerivations' expLine.id %}" method="post"> {% csrf_token %}-->
-    <!--<input type="submit" value="View Derivations"/>-->
-
-<input type="button" name="viewDerivation" onclick="showDiv('toggleDerivations')" value="View Derivation"/><br/>
-
-<div id="toggleDerivations" style="display:none;" class="answer_list">
-      {% include 'svg/derivations.svg' %}
-</div>
-<br/>
-
-
-<form action="{% url 'addline:addAbstractWkf' expLine.id %}" method="get" > {% csrf_token %}
-    <input type="submit" value="Manage Abstract Workflows" />
-</form>
+    <form action="{% url 'addline:addAbstractWkf' expLine.id %}" method="get" > {% csrf_token %}
+        <input type="submit" value="Manage Abstract Workflows" />
+    </form>
 {% endblock %}

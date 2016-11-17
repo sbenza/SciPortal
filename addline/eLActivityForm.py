@@ -24,3 +24,4 @@ class ELActivityForm(forms.ModelForm):
             activity.save()
         return activity
 
+

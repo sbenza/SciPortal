@@ -9,39 +9,45 @@
 <h1>Manage Abstract Workflows</h1>
 <h3>Experiment Line: {{ expLine.name}}</h3>
 <div>
-Select the Abstract Workflow:<br>
-    <ul id="wkfList">
+        <ul id="wkfList">
+{% if valid %}
+    Select the Abstract Workflow:<br>
 
-{% for workflow in workflow_list %}
-    <li><a href="/addline/{{ expLine.id }}/addAbstractWkf/{{workflow.id}}">{{ workflow.name }}</a></li>
-{% endfor %}
-        </ul>
-</div>
+    {% for workflow in workflow_list %}
+        <li><a href="/addline/{{ expLine.id }}/addAbstractWkf/{{workflow.id}}">{{ workflow.name }}</a></li>
+    {% endfor %}
+            </ul>
 
 
-<div id="toggleNewAWkf" style="display:none;" class="answer_list">
 
-<form method="POST" id="awkf-form">
-    {% csrf_token %}
-    <label class="control-label"> Name :</label>
-    <div class="fieldWrapper" id="Name" >
-        {{ form.name }}
+
+    <div id="toggleNewAWkf" style="display:none;" class="answer_list">
+
+    <form method="POST" id="awkf-form">
+        {% csrf_token %}
+        <label class="control-label"> Name :</label>
+        <div class="fieldWrapper" id="Name" >
+            {{ form.name }}
+        </div>
+        <label class="control-label" > Description :</label>
+        <div class="fieldWrapper" id="Description">
+            {{ form.description }}
+        </div>
+        <input type="submit" value="Add" class="tiny button">
+    </form>
     </div>
-    <label class="control-label" > Description :</label>
-    <div class="fieldWrapper" id="Description">
-        {{ form.description }}
-    </div>
-    <input type="submit" value="Add" class="tiny button">
-</form>
-</div>
 
 
 
-<input type="button" name="answer" onclick="showDiv('toggleNewAWkf')" value="Add Abstract Workflow"/><br/>
+    <input type="button" name="answer" onclick="showDiv('toggleNewAWkf')" value="Add Abstract Workflow"/><br/>
 
-<input type="button" name="answer" onclick="showDiv('toggleExpLine')" value="show/hide ExpLine"/>
+    <input type="button" name="answer" onclick="showDiv('toggleExpLine')" value="show/hide ExpLine"/>
 
-<input type="button" name="answer" onclick="showDiv('toggleDerivation')" value="show/hide available derivations"/>
+    <input type="button" name="answer" onclick="showDiv('toggleDerivation')" value="show/hide available derivations"/>
+
+{% else %}
+    Experiment Line must be valid to derive
+{% endif %}
 
  <div id="toggleExpLine" style="display:none;" class="answer_list">
 {% include 'svg/expline.svg' %}

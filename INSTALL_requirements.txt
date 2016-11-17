@@ -2,3 +2,28 @@ pip install django
 pip install django~=1.9.0
 pip install conda
 sudo conda install psycopg2
+
+
+django-extensions         1.7.3                    py35_0    conda-forge
+freetype                  2.6.3                         1    conda-forge
+graphviz                  2.38.0                        1    conda-forge
+jpeg                      9b                            0    conda-forge
+libpng                    1.6.24                        0    conda-forge
+libtiff                   4.0.6                         6    conda-forge
+six                       1.10.0                   py35_0    conda-forge
+django                    1.10.1                   py35_0
+graphviz                  0.5.1                     <pip>
+libpq                     9.5.4                         0
+openssl                   1.0.2j                        0
+pip                       8.1.2                    py35_0
+psycopg2                  2.6.2                    py35_0
+pygraphviz                1.3.1                     <pip>
+pyke                      1.1.1                     <pip>
+python                    3.5.2                         0
+readline                  6.2                           2
+setuptools                27.2.0                   py35_0
+sqlite                    3.13.0                        0
+tk                        8.5.18                        0
+wheel                     0.29.0                   py35_0
+xz                        5.2.2                         0
+zlib                      1.2.8

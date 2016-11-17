@@ -20,26 +20,22 @@ Select the Abstract Activity:<br>
 </div>
 
 
-<div id="toggleNewAAct" style="display:none;" class="answer_list">
+<!--<div id="toggleNewAAct" style="display:none;" class="answer_list">-->
 
-<form method="POST" id="awkf-form">
+<form method="POST" id="aact-form">
     {% csrf_token %}
-    <label class="control-label"> Name :</label>
-    <div class="fieldWrapper" id="Name" >
-        {{ form.name }}
-    </div>
-    <label class="control-label" > Description :</label>
-    <div class="fieldWrapper" id="Description">
-        {{ form.description }}
-    </div>
+    {% for activity in availableAct_list %}
+            <li>{{ activity.name }}</a></li>
+    {% endfor %}
+
     <input type="submit" value="Add" class="tiny button">
 </form>
-</div>
+<!--</div>-->
 
 
 {% endblock %}
 {% block content-right %}
-        <h3>Workflow Name: {{ workflow.name}}</h3>
+        <h3>Textual visualization of the Workflow: {{ workflow.name}}  </h3>
         {% for activity in activities %}
         <li>{{activity }}</a>
         </li>

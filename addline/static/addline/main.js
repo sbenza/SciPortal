@@ -1,24 +1,17 @@
 $(function() {
 
-    // Submit post on submit
+    // Submit expLine on submit event
     $('#expLine-form').on('submit', function(event){
         event.preventDefault();
-        console.log("form submitted!")  // sanity check
-        //var name = $('#exp-Name').val();
-        //alert(name);
-
-        //console.log(name);
+        console.log("form submitted!");  // sanity check
         create_expLine();
     });
-
     // AJAX for posting
     function create_expLine() {
-        console.log("create expLine is working!") // sanity check
+        console.log("create expLine is working!"); // sanity check
         $.ajax({
-
             url : "addExpLine/", // the endpoint
             type : "POST", // http method
-
             data : {
                 name : $('#exp-Name').val(),
                 description : $('#exp-Description').val()
@@ -26,13 +19,11 @@ $(function() {
             // handle a successful response
             success : function(json) {
                 console.log("success expLine is working!"); // sanity check
-
                 $('#exp-Name').val('');
                 $('#exp-Description').val('');// remove the value from the input
                 console.log(json); // log the returned json to the console
                 $("#expLineList").prepend("<li><a href='/addline/"+json.expLineId+"/'>"+json.expName+"</a></li>");
                 console.log("success"); // another sanity check
-                alert(3);
             },
             // handle a non-successful response
             error : function(xhr,errmsg,err) {
@@ -41,27 +32,20 @@ $(function() {
                 console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
             }
         });
-    };
+    }
 
-    // Submit post on submit
+    // Submit awkf on submit event
     $('#awkf-form').on('submit', function(event){
         event.preventDefault();
-        console.log("form submitted!")  // sanity check
-        //var name = $('#wkf-Name').val();
-        //alert(name);
-
-        //console.log(name);
+        console.log("form submitted!");  // sanity check
         create_wkf();
     });
-
     // AJAX for posting
     function create_wkf() {
-        console.log("create wkf is working!") // sanity check
+        console.log("create wkf is working!"); // sanity check
         $.ajax({
-
             url : "", // the endpoint
             type : "POST", // http method
-
             data : {
                 name : $('#wkf-Name').val(),
                 description : $('#wkf-Description').val()
@@ -69,13 +53,11 @@ $(function() {
             // handle a successful response
             success : function(json) {
                 console.log("success wkf is working!"); // sanity check
-
-                $('#wkf-Name').val('');
+                $('#wkf-Name').val('');// remove the value from the input
                 $('#wkf-Description').val('');// remove the value from the input
                 console.log(json); // log the returned json to the console
                 $("#wkfList").prepend("<li><a href='/addline/"+json.expLineId+"/addAbstractWkf/"+json.wkfId+"/'>"+json.wkfName+"</a></li>");
                 console.log("success"); // another sanity check
-                alert(3);
             },
             // handle a non-successful response
             error : function(xhr,errmsg,err) {
@@ -84,43 +66,29 @@ $(function() {
                 console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
             }
         });
-    };
+    }
 
 
-// Submit post on submit
+    // Submit ela on submit event
     $('#ELA-form').on('submit', function(event){
         event.preventDefault();
-        console.log("form submitted!")  // sanity check
+        console.log("form submitted!");  // sanity check
         addELA();
     });
-
     // AJAX for posting
     function addELA() {
-        console.log("create ELA is working!") // sanity check
-         //var expid= $('#id_name')
-         //var url = expid+"/addELAct/"
-
-         //var div=$('#result').html();
-        jQuery.get('/addline/svg/expline.svg', function(data) {
-        alert(data);
-        });
-        //alert( div);
-        //Checked dependency to string
-        var checkbox_value = '';
-
+        console.log("create ELA is working!"); // sanity check
+        var checkbox_value = '';    //Checked dependency to string
         $(":checkbox").each(function () {
         var ischecked = $(this).is(":checked");
         if (ischecked) {
             checkbox_value += $(this).val() + " ";
         }
         });
-
-
+        
         $.ajax({
-
             url : "addELAct/", // the endpoint
             type : "POST", // http method
-
             data : {
                 id : $('#expid').val(),
                 name : $('#name').val(),
@@ -128,21 +96,17 @@ $(function() {
                 variant : $('#variant').val(),
                 optional : $('#optional').val(),
                 dependency : checkbox_value
-
                 }, // data sent with the post request
             // handle a successful response
             success : function(json) {
-
                 console.log($('#name').val());
                 console.log("success expLine is working!"); // sanity check
-
-                $('#name').val('');
-                $// remove the value from the input
+                
+                $('#name').val(''); // remove the value from the input
                 console.log(json); // log the returned json to the console
                 console.log("success"); // another sanity check
-                alert(3);
-
-                $('#result').load('/addline/svg/expline.svg');
+                
+                window.location.reload(true);
             },
             // handle a non-successful response
             error : function(xhr,errmsg,err) {
@@ -151,12 +115,41 @@ $(function() {
                 console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
             }
         });
-    };
+    }
+    // validate expLine on submit event
+    $('#expLine-check').on('submit', function(event){
+        event.preventDefault();
+        console.log("checking expLine");  // sanity check
 
+        checkExp();
+
+    });
+    function checkExp(){
+        $.ajax({
+            url : "addELAct/", // the endpoint
+            type : "PUT", // http method
+            success : function(json) {
+
+                console.log("expLine checked"); // another sanity check
+                console.log(json); // log the returned json to the console
+                $("#connected").children().remove()
+                $("#connected").prepend("<li><h3> "+json.text+"</h3></li>"); 
+                $("#cardinality").children().remove()
+                $("#cardinality").prepend("<li><h3> "+json.cardinality_text+"</h3></li>");
+
+            },
+            // handle a non-successful response
+            error : function(xhr,errmsg,err) {
+                $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                    " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    }
     // This function gets cookie with a given name
     function getCookie(name) {
         var cookieValue = null;
-        if (document.cookie && document.cookie != '') {
+        if (document.cookie && document.cookie !== '') {
             var cookies = document.cookie.split(';');
             for (var i = 0; i < cookies.length; i++) {
                 var cookie = jQuery.trim(cookies[i]);

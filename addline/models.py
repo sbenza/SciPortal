@@ -31,13 +31,9 @@ class AbstractWorkflow(models.Model):
         db_table = 'abstractworkflow'
 
 
-
-
-
 class Concreteactivity(models.Model):
     id = models.AutoField(primary_key=True)
-    concreteWorkflow = models.ForeignKey('ConcreteWorkflow', on_delete=models.CASCADE, db_column='concreteworkflowid',
-                                         )
+    concreteWorkflow = models.ForeignKey('ConcreteWorkflow', on_delete=models.CASCADE, db_column='concreteworkflowid')
     name = models.CharField(max_length=255)
     operation = models.CharField(max_length=255, choices=OPERATION_CHOICES, default='Map')
 
