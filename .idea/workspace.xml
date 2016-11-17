@@ -23,11 +23,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/addline/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.5" vertical-offset="3248" max-vertical-offset="5640">
-              <caret line="258" column="27" selection-start-line="258" selection-start-column="27" selection-end-line="258" selection-end-column="27" />
+            <state vertical-scroll-proportion="0.49920508" vertical-offset="5056" max-vertical-offset="5790">
+              <caret line="383" column="57" selection-start-line="383" selection-start-column="57" selection-end-line="383" selection-end-column="57" />
               <folding>
                 <element signature="e#848#1799#0" expanded="false" />
               </folding>
@@ -45,11 +45,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="addAbstractWkf.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="addAbstractWkf.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/addline/templates/addline/addAbstractWkf.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6671949" vertical-offset="314" max-vertical-offset="975">
-              <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+            <state vertical-scroll-proportion="-3.1666667" vertical-offset="104" max-vertical-offset="975">
+              <caret line="12" column="11" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="11" />
               <folding />
             </state>
           </provider>
@@ -58,7 +58,7 @@
       <file leaf-file-name="expline.svg" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/addline/templates/svg/expline.svg">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2625">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1365">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
@@ -181,9 +181,9 @@
         <option value="$PROJECT_DIR$/addline/static/addline/main.js" />
         <option value="$PROJECT_DIR$/addline/expLineDataLog.py" />
         <option value="$PROJECT_DIR$/addline/templates/addline/detail.html" />
-        <option value="$PROJECT_DIR$/addline/views.py" />
         <option value="$PROJECT_DIR$/addline/dataLogFunctions.py" />
         <option value="$PROJECT_DIR$/addline/templates/addline/addAbstractWkf.html" />
+        <option value="$PROJECT_DIR$/addline/views.py" />
       </list>
     </option>
   </component>
@@ -634,22 +634,22 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/addline/views.py</url>
-          <line>365</line>
+          <line>367</line>
           <option name="timeStamp" value="63" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/addline/views.py</url>
-          <line>312</line>
+          <line>314</line>
           <option name="timeStamp" value="64" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/addline/views.py</url>
-          <line>310</line>
+          <line>312</line>
           <option name="timeStamp" value="65" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/addline/views.py</url>
-          <line>307</line>
+          <line>309</line>
           <option name="timeStamp" value="66" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
@@ -664,7 +664,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/addline/views.py</url>
-          <line>232</line>
+          <line>234</line>
           <option name="timeStamp" value="83" />
         </line-breakpoint>
       </breakpoints>
@@ -997,16 +997,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/addline/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.5" vertical-offset="3248" max-vertical-offset="5640">
-          <caret line="258" column="27" selection-start-line="258" selection-start-column="27" selection-end-line="258" selection-end-column="27" />
-          <folding>
-            <element signature="e#848#1799#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/addline/dataLogFunctions.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="720" max-vertical-offset="2070">
@@ -1043,9 +1033,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/addline/templates/addline/addAbstractWkf.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6671949" vertical-offset="314" max-vertical-offset="975">
-          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+        <state vertical-scroll-proportion="-3.1666667" vertical-offset="104" max-vertical-offset="975">
+          <caret line="12" column="11" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="11" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/addline/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.49920508" vertical-offset="5056" max-vertical-offset="5790">
+          <caret line="383" column="57" selection-start-line="383" selection-start-column="57" selection-end-line="383" selection-end-column="57" />
+          <folding>
+            <element signature="e#848#1799#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

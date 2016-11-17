@@ -80,11 +80,9 @@ def expLineDetailView(request, explineid):
     return render(request, 'addline/detail.html', c)
 
 
-def addELANodes(graph, activities, editable):
+def addELANodes(graph, activities, editable=False,href=""):
     for activity in activities:
-        if editable:
-            graph.attr('node', href='/addline/editAbstractWkf/' + str(activity.id) + '/',
-                       tooltip="click to edit this activity " + str(activity.id), fontsize='8.0')
+
         if activity.variant:
             if activity.optional:
                 graph.add_node(n= str(activity.id), label=(activity.name + '\n' + activity.operation),
@@ -101,7 +99,11 @@ def addELANodes(graph, activities, editable):
             else:
                 graph.add_node(n= str(activity.id), label=(activity.name + '\n' + activity.operation ),
                            fontsize='8.0')
-
+        if editable:
+            node = graph.get_node(str(activity.id))
+            node.attr['href'] = '/'+href + str(activity.id) + '/'
+            node.attr['tooltip']="click to edit this activity " + str(activity.id)
+            # href = '/addline/editAbstractWkf/'
 
 def addAbsActNodes(graph, derivations):
     sgraph = gv.Digraph('cluster_0')
@@ -137,9 +139,9 @@ def addELAEdge(graph, dependencies):
                 graph.add_edge(str(dependency.eLActivity.id), str(dependency.dependentELActivity.id))
 
 
-def createGraph(activities, dependencies, editable):
+def createGraph(activities, dependencies, editable=False, href=""):
     graph = AGraph(strict=False,directed=True)
-    addELANodes(graph, activities, editable)
+    addELANodes(graph, activities, editable, href)
 
     addELAEdge(graph, dependencies)
 
@@ -379,11 +381,19 @@ def abstractWkfManagementView(request, explineid):
             eLAct_list = ExpLineActivity.objects.filter(expLine=explineid)
             eLActDep_list = ExpLineActDependency.objects.filter(eLActivity__expLine__id=explineid)
             workflow_list = AbstractWorkflow.objects.filter(expLine__id=explineid)
-            # graph = createGraph(eLAct_list, eLActDep_list, True)
+            graph = createGraph(eLAct_list, eLActDep_list)
 
             derivations_list = Derivation.objects.filter(expLineActivity__expLine_id=explineid)
             abstractActDep_list = AbstractWorkflowDependency.objects.filter(
                 activity__expLineActivity__expLine__id=explineid)
+
+            cardinality=check_cardinality(graph,eLActDep_list)
+            conectivity = check_connectivity(graph)
+            # print ('grafo atualizado')
+            # store the response data to send to the html via json by the ajax code
+            valid=True
+            if cardinality or conectivity:
+                valid=False
 
             # createSubGraph(derivations_list, abstractActDep_list)
             form = AbstractWorkflowForm()
@@ -391,6 +401,6 @@ def abstractWkfManagementView(request, explineid):
             raise Http404('ExpLineActivity not exist')
 
         c = {'eLActDep_list': eLActDep_list, 'eLAct_list': eLAct_list, 'expLine': expLine,
-             'workflow_list': workflow_list, 'form': form}
+             'workflow_list': workflow_list, 'form': form, 'valid':valid}
 
         return render(request, 'addline/addAbstractWkf.html', c)
