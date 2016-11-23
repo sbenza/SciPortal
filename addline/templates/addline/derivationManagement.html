@@ -1,45 +1,130 @@
 {% extends 'addline/base.html' %}
 {% load static %}
+        {% block head %}
+<script type="text/javascript">
+function openForm(id){
+if (document.getElementById('toggleAddAA').style.display == 'none'){
+document.getElementById('toggleAddAA').style.display = 'block';}
+$.ajax({
+            url : "", // the endpoint
+            type : "PUT", // http method
+            data : {
+                id : id,
+                },
+            success : function(list) {
+                $("#activityList").children().remove()
+                $('#hidden').append('<input type="hidden" id="elaid" value="'+(id)+'"></>');
+
+                for(i in list){
+
+                     $('#activityList').append('<input type="checkbox" name="addabsact" value="'+list[i].pk+'">'+
+                    ' <label for="'+list[i].pk +'">'+list[i].fields.name+'</label><br/>');
+                  }
+                console.log(" open form of",id); // another sanity check
+                //console.log($('#elaid').val())
+            },
+            // handle a non-successful response
+            error : function(xhr,errmsg,err) {
+                $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                    " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+
+   }
+</script>
+{% endblock %}
 
 {% block gd %}
         <h1>Manage Abstract Workflows</h1>
+        <h3>Experiment Line: {{ expLine.name}}</h3>
+        <!--<input hidden id="exp_id" value="{{ expLine.id }}" />-->
+        <input hidden id="workflowid" value="{{ workflow.id }}" />
 
+        <h4>Workflow: {{ workflow.name }}</h4>
+        <ul id="connected"></ul>
+         <ul id="cardinality"></ul>
+
+<div id="toggleAddAA" style="display:none;" class="answer_list">
+<a><b>
+   Select one or more Abstract Activities or Add a New Abstract Activity
+</b></a>
+    <ul id="alert"></ul>
+  <form method="POST" id="aact-form">
+    {% csrf_token %}
+      <ul id="activityList">
+<li><a ></a></li>
+          </ul>
+      <ul id="hidden">
+ </ul>
+  <input type="submit" value="Select" class="tiny button"><br/>
+
+</form>
+
+
+<form method="POST" id="addAA-form"> {% csrf_token %}
+    <a><b>New Activity</b></a>
+<div id="form">
+    <label class="control-label"> Name :</label>
+    <div class="fieldWrapper" id="Name" >
+        {{ form.name }}
+    </div>
+    <label class="control-label" > Description :</label>
+    <div class="fieldWrapper" id="Description">
+        {{ form.description }}
+    </div>
+    <input type="submit" value="Add" class="tiny button"><br/>
+       <h5>Careful:</h5>
+    <a>
+        New Abstract Activities  will be added to the workflow AND to the Experiment Line Activity <br/>
+        Creating one imply in altering the ELA variability!.
+    </a>
+</div>
+</form>
+</div>
 {% endblock %}
 
 {% block content %}
-        <h3>Experiment Line: {{ expLine.name}}</h3>
+
+
 
 <div>
-Select the Abstract Activity:<br>
-    <ul id="aactList">
+<h3>Click the Experiment Line Activity you want to manage</h3>
+{% include 'svg/editable_graph.svg' %}
 
-{% for workflow in workflow_list %}
-    <li><a href="/addline/{{ expLine.id }}/addAbstractWkf/{{workflow.id}}">{{ workflow.name }}</a></li>
-{% endfor %}
-        </ul>
 </div>
 
 
 <!--<div id="toggleNewAAct" style="display:none;" class="answer_list">-->
 
-<form method="POST" id="aact-form">
-    {% csrf_token %}
-    {% for activity in availableAct_list %}
-            <li>{{ activity.name }}</a></li>
-    {% endfor %}
+<!--<form method="POST" id="aact-form">-->
+    <!--{% csrf_token %}-->
+    <!--{% for activity in availableAct_list %}-->
+            <!--<li>{{ activity.name }}</a></li>-->
+    <!--{% endfor %}-->
 
-    <input type="submit" value="Add" class="tiny button">
-</form>
+    <!--<input type="submit" value="Add" class="tiny button">-->
+<!--</form>-->
 <!--</div>-->
 
 
 {% endblock %}
 {% block content-right %}
-        <h3>Textual visualization of the Workflow: {{ workflow.name}}  </h3>
-        {% for activity in activities %}
-        <li>{{activity }}</a>
-        </li>
-        {% endfor %}
+        <h3>Visualization of the Workflow: {{ workflow.name}}  </h3>
+        <!--{% for activity in activities %}-->
+        <!--<li>{{activity }}</a>-->
+        <!--</li>-->
+        <!--{% endfor %}-->
+                {% if abstractAct_list %}
+
+        <form method="POST" id=wkf-check > {% csrf_token %}
+                    <button class="button" type="submit" > Validate Experiment </button>
+            </form>
+        {% include 'svg/workflow.svg' %}
+
+{% else %}
+Not derived yet
+        {% endif %}
 {% endblock %}
 {% block content-bottom %}
 <input type="button" name="answer" onclick="showDiv('toggleNewAAct')" value="Add Abstract Activity"/><br/>

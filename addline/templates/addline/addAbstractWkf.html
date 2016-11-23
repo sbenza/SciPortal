@@ -2,12 +2,13 @@
 {% load static %}
 
 {% block gd %}
+<h1>Manage Abstract Workflows</h1>
+<h3>Experiment Line: {{ expLine.name}}</h3>
 {% endblock %}
 
 {% block content %}
 
-<h1>Manage Abstract Workflows</h1>
-<h3>Experiment Line: {{ expLine.name}}</h3>
+
 <div>
         <ul id="wkfList">
 {% if valid %}

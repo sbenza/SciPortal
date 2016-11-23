@@ -38,7 +38,7 @@ expLine = ExpLine.objects.get(id=explineid)
 eLAct_list = ExpLineActivity.objects.filter(expLine=explineid)
 eLActDep_list = ExpLineActDependency.objects.filter(eLActivity__expLine__id=explineid)
 abstractAct_list = Derivation.objects.filter(expLineActivity__expLine=explineid)
-abstractActDep_list = AbstractWorkflowDependency.objects.filter(
+abstractActDep_list = AbstractActivityDependency.objects.filter(
     activity__expLineActivity__expLine__id=explineid)
 
 print (expLine.id)

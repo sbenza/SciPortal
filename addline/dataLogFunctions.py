@@ -48,7 +48,6 @@ def check_cardinality(graph,dependencies):
     print (dependencies)
     @pyDatalog.predicate()
     def _():
-        #todo
         in_cardinality_dict={}
         invalid_in_text=''
 
@@ -122,7 +121,7 @@ def check_connectivity(graph):
 
         #return only if not connected
         if not nodes:
-            #todo
+            #todo?
             # print('Graph is connected')  #console text
             pass
         else:

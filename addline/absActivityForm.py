@@ -5,12 +5,12 @@ from django.forms import Textarea, RadioSelect
 
 class AbstractActivityForm(forms.ModelForm):
     class Meta:
-        model = ExpLineActivity
-        fields = ('name', 'operation', 'description', )
+        model = AbstractActivity
+        fields = ('name', 'description', 'operation')
         widgets = {
+            'operation': forms.HiddenInput(),
             'name': Textarea(attrs={'rows': 1,'id': 'aact-name', 'required': True, 'placeholder': 'Activity Name'},),
             'description': Textarea(attrs={'rows': 1,'id': 'aact-description', 'required': True, 'placeholder': 'Say something about the activity...'},),
-            'operation': forms.Select(choices=OPERATION_CHOICES, attrs={'id': 'aact-operation'}),
         }
 
 

@@ -116,6 +116,82 @@ $(function() {
             }
         });
     }
+    //adding new activity to the derived workflow AND the expline activity
+    $('#addAA-form').on('submit', function(event){
+        event.preventDefault();
+        console.log("form submitted!");  // sanity check
+        addAA();
+    });
+    // AJAX for posting
+    function addAA() {
+        console.log("create AA is working!"); // sanity check
+        
+        $.ajax({
+            url : "", // the endpoint
+            type : "POST", // http method
+            data : {
+                name : $('#aact-name').val(),
+                description : $('#aact-description').val(),
+                func : 'addAA'
+                
+                }, // data sent with the post request
+            // handle a successful response
+            success : function(json) {
+                console.log("success addAA is working!",$('#Name').val(),$('#Description').val()); // sanity check
+                window.location.reload(true);
+            },
+            // handle a non-successful response
+            error : function(xhr,errmsg,err) {
+                $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                    " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    }
+    //adding the selected activities to the derived workflow
+    $('#aact-form').on('submit', function(event){
+        event.preventDefault();
+        console.log("form submitted!");  // sanity check
+        selectAA();
+    });
+    // AJAX for posting
+    function selectAA() {
+        console.log("create AA is working!"); // sanity check
+        var checkbox_value = '';    //Checked dependency to string
+        $(":checkbox").each(function () {
+        var ischecked = $(this).is(":checked");
+        if (ischecked) {
+            checkbox_value += $(this).val() + " ";
+        }
+        });
+        
+        $.ajax({
+            url : "", // the endpoint
+            type : "POST", // http method
+            data : {
+                elaid : $('#elaid').val(),
+                workflowid : $('#workflowid').val(),
+                activities : checkbox_value,
+                func : 'selectAA'
+                
+                }, // data sent with the post request
+            // handle a successful response
+            success : function(json) {
+                console.log("success addAA is working!"); // sanity check
+                if (json.text !== ''){
+                window.confirm(json.text)}
+                
+                window.location.reload(true);
+                
+            },
+            // handle a non-successful response
+            error : function(xhr,errmsg,err) {
+                $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                    " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    }
     // validate expLine on submit event
     $('#expLine-check').on('submit', function(event){
         event.preventDefault();
@@ -146,6 +222,41 @@ $(function() {
             }
         });
     }
+    // validate expLine on submit event
+    $('#wkf-check').on('submit', function(event){
+        event.preventDefault();
+        console.log("checking wkf");  // sanity check
+
+        checkWkf();
+
+    });
+    function checkWkf(){
+        $.ajax({
+            url : "", // the endpoint
+            type : "POST", // http method
+            data : {
+                func : 'checkWkf',
+            },
+            success : function(json) {
+
+                console.log("expLine checked"); // another sanity check
+                console.log(json.text); // log the returned json to the console
+                $("#connected").children().remove()
+                $("#connected").prepend("<li><h3> "+json.text+"</h3></li>"); 
+                $("#cardinality").children().remove()
+                $("#cardinality").prepend("<li><h3> "+json.cardinality_text+"</h3></li>");
+
+
+            },
+            // handle a non-successful response
+            error : function(xhr,errmsg,err) {
+                $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                    " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    }
+    
     // This function gets cookie with a given name
     function getCookie(name) {
         var cookieValue = null;

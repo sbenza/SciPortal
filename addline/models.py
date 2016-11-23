@@ -79,7 +79,7 @@ class ExpLineActivity(models.Model):
         db_table = 'explineactivity'
 
 
-class AbstractWorkflowDependency(models.Model):
+class AbstractActivityDependency(models.Model):
     id = models.AutoField(primary_key=True)
     activity = models.ForeignKey('Derivation', on_delete=models.CASCADE, db_column='derivationid', related_name='derivationid')
     dependentActivity = models.ForeignKey('Derivation', on_delete=models.CASCADE, db_column='depderivationid', related_name='depderivationid')
